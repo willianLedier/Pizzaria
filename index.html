@@ -70,20 +70,9 @@
   </div>
 
   <script>
-    
-  let pizzas = [];
 
-  fetch('dados/lalenha/pizzas.json')
-    .then(response => {
-      if (!response.ok) throw new Error("Erro ao carregar o arquivo pizzas.json");
-      console.error(response.json());
-      return response.json();
-    })
-    .then(data => {
-      console.error(data);
-      pizzas = data;
-    })
-    .catch(error => console.error("Erro no carregamento das pizzas:", error));
+    let pizzas = fetch('dados/lalenha/pizzas.json').then(res => res.json());
+    console.log(pizzas); 
 
     const bebidas = [
       { id: 101, name: "Coca-Cola 12L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
