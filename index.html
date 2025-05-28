@@ -10,7 +10,7 @@
       padding: 0; 
       font-family: Arial, sans-serif; 
       background: #fff8f0;
-      padding-top: 120px; /* Aumentei o padding-top para acomodar o novo botão */
+      padding-top: 120px;
       padding-bottom: 180px;
     }
     header {
@@ -303,6 +303,20 @@
       height: 80px;
       resize: vertical;
     }
+    .address-fields {
+      display: flex;
+      gap: 10px;
+    }
+    .address-fields .form-group {
+      flex: 1;
+    }
+    .address-fields .form-group:first-child {
+      flex: 3;
+    }
+    .address-fields .form-group:nth-child(2) {
+      flex: 1;
+      max-width: 100px;
+    }
     .btn-enviar {
       background: #4CAF50;
       color: white;
@@ -323,7 +337,7 @@
     /* Responsividade para telas menores */
     @media (max-width: 768px) {
       body {
-        padding-top: 110px; /* Ajuste para mobile */
+        padding-top: 110px;
       }
       .pizza-menu {
         grid-template-columns: 1fr;
@@ -331,6 +345,12 @@
       .toggle-menu {
         height: 45px;
         font-size: 16px;
+      }
+      .address-fields {
+        flex-direction: column;
+      }
+      .address-fields .form-group:nth-child(2) {
+        max-width: none;
       }
     }
   </style>
@@ -365,13 +385,19 @@
         <button class="close-modal" id="closeModal">&times;</button>
       </div>
       <form id="formFinalizar">
-        <div class="form-group">
-          <label for="endereco">Endereço de Entrega</label>
-          <textarea id="endereco" required placeholder="Rua, Número, Bairro, Complemento"></textarea>
+        <div class="address-fields">
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" required placeholder="Rua, Avenida, etc">
+          </div>
+          <div class="form-group">
+            <label for="numero">Número</label>
+            <input type="text" id="numero" required placeholder="Nº">
+          </div>
         </div>
         <div class="form-group">
-          <label for="telefone">Telefone para Contato</label>
-          <input type="tel" id="telefone" required placeholder="(XX) XXXX-XXXX">
+          <label for="complemento">Complemento (opcional)</label>
+          <input type="text" id="complemento" placeholder="Ap, Torre, Condomínio, etc">
         </div>
         <div class="form-group">
           <label for="pagamento">Forma de Pagamento</label>
@@ -702,9 +728,14 @@
       }, 0);
       
       mensagem += `\n*Total: R$ ${total.toFixed(2)}*\n\n`;
-      mensagem += `*Endereço de Entrega:*\n${document.getElementById('endereco').value}\n\n`;
-      mensagem += `*Telefone:* ${document.getElementById('telefone').value}\n`;
-      mensagem += `*Forma de Pagamento:* ${document.getElementById('pagamento').value}`;
+      mensagem += `*Endereço de Entrega:*\n${document.getElementById('endereco').value}, ${document.getElementById('numero').value}`;
+      
+      const complemento = document.getElementById('complemento').value;
+      if (complemento) {
+        mensagem += ` - ${complemento}`;
+      }
+      
+      mensagem += `\n\n*Forma de Pagamento:* ${document.getElementById('pagamento').value}`;
       
       const troco = document.getElementById('troco').value;
       if (troco && document.getElementById('pagamento').value === 'Dinheiro') {
