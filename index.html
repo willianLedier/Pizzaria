@@ -510,8 +510,14 @@
         
         if (existente) {
           existente.quantity++;
+          existente.timestamp = Date.now();
         } else {
-          carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
+          carrinho.push({ 
+            type: 'meia', 
+            pizzas: nova, 
+            quantity: 1,
+            timestamp: Date.now()
+          });
         }
         
         const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
@@ -524,8 +530,14 @@
         const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
         if (idx >= 0) {
           carrinho[idx].quantity++;
+          carrinho[idx].timestamp = Date.now();
         } else {
-          carrinho.push({ type: 'inteira', pizzaId, quantity: 1 });
+          carrinho.push({ 
+            type: 'inteira', 
+            pizzaId, 
+            quantity: 1,
+            timestamp: Date.now()
+          });
         }
       }
       renderCart();
@@ -535,8 +547,14 @@
       const idx = carrinho.findIndex(item => item.type === 'bebida' && item.bebidaId === bebidaId);
       if (idx >= 0) {
         carrinho[idx].quantity++;
+        carrinho[idx].timestamp = Date.now();
       } else {
-        carrinho.push({ type: 'bebida', bebidaId, quantity: 1 });
+        carrinho.push({ 
+          type: 'bebida', 
+          bebidaId, 
+          quantity: 1,
+          timestamp: Date.now()
+        });
       }
       renderCart();
     }
@@ -548,8 +566,14 @@
         
         if (existente) {
           existente.quantity++;
+          existente.timestamp = Date.now();
         } else {
-          carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
+          carrinho.push({ 
+            type: 'meia', 
+            pizzas: nova, 
+            quantity: 1,
+            timestamp: Date.now()
+          });
         }
         
         const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
@@ -564,8 +588,14 @@
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
         if (existente) {
           existente.quantity++;
+          existente.timestamp = Date.now();
         } else {
-          carrinho.push({ type: 'meia', pizzas: [pizzaId], quantity: 1 });
+          carrinho.push({ 
+            type: 'meia', 
+            pizzas: [pizzaId], 
+            quantity: 1,
+            timestamp: Date.now()
+          });
         }
       }
       renderCart();
@@ -586,7 +616,11 @@
       btnFinalizar.disabled = false;
       cartList.innerHTML = '';
 
-      carrinho.forEach((item, index) => {
+      // Ordena os itens por timestamp (mais recente primeiro)
+      const carrinhoOrdenado = [...carrinho].sort((a, b) => b.timestamp - a.timestamp);
+
+      carrinhoOrdenado.forEach((item, index) => {
+        const originalIndex = carrinho.findIndex(i => i.timestamp === item.timestamp);
         const li = document.createElement('li');
         let name, price;
 
@@ -616,9 +650,9 @@
         li.innerHTML = `
           <div class="item-name">${name}</div>
           <div class="quantity-controls">
-            <button onclick="decrement(${index})">−</button>
+            <button onclick="decrement(${originalIndex})">−</button>
             <span>${item.quantity}</span>
-            <button onclick="increment(${index})">+</button>
+            <button onclick="increment(${originalIndex})">+</button>
           </div>
           <div class="item-price">R$ ${itemTotalPrice.toFixed(2)}</div>
         `;
@@ -652,12 +686,14 @@
 
     function increment(index) {
       carrinho[index].quantity++;
+      carrinho[index].timestamp = Date.now(); // Atualiza o timestamp ao incrementar
       renderCart();
     }
 
     function decrement(index) {
       if (carrinho[index].quantity > 1) {
         carrinho[index].quantity--;
+        carrinho[index].timestamp = Date.now(); // Atualiza o timestamp ao decrementar
       } else {
         if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
           meiaPizzaPendente = null;
