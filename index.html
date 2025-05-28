@@ -73,7 +73,7 @@
     
     const pizzas = [];
 
-  fetch('Dados/lalenha/pizzas.json')
+  fetch('dados/lalenha/pizzas.json')
     .then(response => {
       if (!response.ok) throw new Error("Erro ao carregar o arquivo pizzas.json");
       return response.json();
