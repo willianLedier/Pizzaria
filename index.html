@@ -228,89 +228,110 @@
     }
 
     function addMeiaPizza(pizzaId) {
+      // Busca uma meia pizza com apenas um sabor diferente do selecionado
       const idx = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] !== pizzaId);
       if (idx >= 0) {
         const outra = carrinho[idx].pizzas[0];
         carrinho.splice(idx, 1);
-        const nova = [outra, pizzaId].sort();
-        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.join() === nova.join());
+        const nova = [outra, pizzaId].sort((a,b) => a-b);
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
         if (existente) {
           existente.quantity++;
         } else {
           carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
         }
       } else {
-        carrinho.push({ type: 'meia', pizzas: [pizzaId], quantity: 1 });
+        // Se não existe meia pizza "solitária", adiciona meia pizza só com um sabor
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
+        if (existente) {
+          existente.quantity++;
+        } else {
+          carrinho.push({ type: 'meia', pizzas: [pizzaId], quantity: 1 });
+        }
       }
       renderCart();
     }
 
     function renderCart() {
-      cartList.innerHTML = '';
       if (carrinho.length === 0) {
         cartSection.style.display = 'none';
         return;
       }
       cartSection.style.display = 'block';
-      let total = 0;
+      cartList.innerHTML = '';
 
       carrinho.forEach((item, index) => {
         const li = document.createElement('li');
-        const nome = document.createElement('span');
-        nome.className = 'item-name';
+        let name, price;
 
         if (item.type === 'inteira') {
           const pizza = pizzas.find(p => p.id === item.pizzaId);
-          nome.textContent = `Pizza inteira - ${pizza.name}`;
-          total += pizza.price * item.quantity;
-        } else {
-          const [id1, id2] = item.pizzas;
-          const pizza1 = pizzas.find(p => p.id === id1);
-          const pizza2 = pizzas.find(p => p.id === id2);
-          nome.textContent = `Meia - ${pizza1.name} / ${pizza2.name}`;
-          const preco = (pizza1.price + pizza2.price) / 2;
-          total += preco * item.quantity;
+          name = pizza.name;
+          price = pizza.price;
+        } else if (item.type === 'meia') {
+          if (item.pizzas.length === 1) {
+            // meia pizza só com um sabor
+            const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+            name = `Meia pizza de ${pizza.name}`;
+            price = pizza.price / 2;
+          } else if (item.pizzas.length === 2) {
+            const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+            const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+            name = `Meia pizza de ${pizza1.name} + meia pizza de ${pizza2.name}`;
+            // preço = maior preço das duas pizzas (ajuste solicitado)
+            price = Math.max(pizza1.price, pizza2.price);
+          }
         }
 
-        const controls = document.createElement('div');
-        controls.className = 'quantity-controls';
+        const itemTotalPrice = price * item.quantity;
 
-        const btnMinus = document.createElement('button');
-        btnMinus.textContent = '−';
-        btnMinus.onclick = () => {
-          if (item.quantity > 1) {
-            item.quantity--;
-          } else {
-            carrinho.splice(index, 1);
-          }
-          renderCart();
-        };
+        li.innerHTML = `
+          <div class="item-name">${name}</div>
+          <div class="quantity-controls">
+            <button onclick="decrement(${index})">−</button>
+            <span>${item.quantity}</span>
+            <button onclick="increment(${index})">+</button>
+          </div>
+          <div class="item-price">R$ ${itemTotalPrice.toFixed(2)}</div>
+        `;
 
-        const qtd = document.createElement('span');
-        qtd.textContent = item.quantity;
-
-        const btnPlus = document.createElement('button');
-        btnPlus.textContent = '+';
-        btnPlus.onclick = () => {
-          item.quantity++;
-          renderCart();
-        };
-
-        controls.appendChild(btnMinus);
-        controls.appendChild(qtd);
-        controls.appendChild(btnPlus);
-
-        const precoEl = document.createElement('span');
-        precoEl.className = 'item-price';
-        precoEl.textContent = `R$ ${(item.type === 'inteira' ? pizzas.find(p => p.id === item.pizzaId).price : (pizzas.find(p => p.id === item.pizzas[0]).price + pizzas.find(p => p.id === item.pizzas[1]).price) / 2).toFixed(2)}`;
-
-        li.appendChild(nome);
-        li.appendChild(controls);
-        li.appendChild(precoEl);
         cartList.appendChild(li);
       });
 
+      // Calcula total geral
+      const total = carrinho.reduce((acc, item) => {
+        let price = 0;
+        if (item.type === 'inteira') {
+          const pizza = pizzas.find(p => p.id === item.pizzaId);
+          price = pizza.price;
+        } else if (item.type === 'meia') {
+          if (item.pizzas.length === 1) {
+            const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+            price = pizza.price / 2;
+          } else if (item.pizzas.length === 2) {
+            const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+            const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+            price = Math.max(pizza1.price, pizza2.price);
+          }
+        }
+        return acc + price * item.quantity;
+      }, 0);
+
       totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    }
+
+    function increment(index) {
+      carrinho[index].quantity++;
+      renderCart();
+    }
+
+    function decrement(index) {
+      if (carrinho[index].quantity > 1) {
+        carrinho[index].quantity--;
+      } else {
+        carrinho.splice(index, 1);
+      }
+      renderCart();
     }
 
     renderMenu();
