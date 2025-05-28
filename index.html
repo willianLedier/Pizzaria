@@ -510,7 +510,6 @@
         
         if (existente) {
           existente.quantity++;
-          existente.timestamp = Date.now();
         } else {
           carrinho.push({ 
             type: 'meia', 
@@ -530,7 +529,6 @@
         const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
         if (idx >= 0) {
           carrinho[idx].quantity++;
-          carrinho[idx].timestamp = Date.now();
         } else {
           carrinho.push({ 
             type: 'inteira', 
@@ -547,7 +545,6 @@
       const idx = carrinho.findIndex(item => item.type === 'bebida' && item.bebidaId === bebidaId);
       if (idx >= 0) {
         carrinho[idx].quantity++;
-        carrinho[idx].timestamp = Date.now();
       } else {
         carrinho.push({ 
           type: 'bebida', 
@@ -566,7 +563,6 @@
         
         if (existente) {
           existente.quantity++;
-          existente.timestamp = Date.now();
         } else {
           carrinho.push({ 
             type: 'meia', 
@@ -588,7 +584,6 @@
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
         if (existente) {
           existente.quantity++;
-          existente.timestamp = Date.now();
         } else {
           carrinho.push({ 
             type: 'meia', 
@@ -686,14 +681,12 @@
 
     function increment(index) {
       carrinho[index].quantity++;
-      carrinho[index].timestamp = Date.now(); // Atualiza o timestamp ao incrementar
       renderCart();
     }
 
     function decrement(index) {
       if (carrinho[index].quantity > 1) {
         carrinho[index].quantity--;
-        carrinho[index].timestamp = Date.now(); // Atualiza o timestamp ao decrementar
       } else {
         if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
           meiaPizzaPendente = null;
