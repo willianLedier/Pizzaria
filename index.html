@@ -42,7 +42,7 @@
     }
     .pizza-menu {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
     .pizza-card {
@@ -180,6 +180,154 @@
       font-style: italic;
       padding: 20px 0;
     }
+
+    /* Botão de alternar entre pizzas/bebidas */
+    .toggle-menu {
+      position: fixed;
+      bottom: 220px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #d84315;
+      color: white;
+      border: none;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+    }
+    .toggle-menu:hover {
+      transform: scale(1.1);
+    }
+
+    /* Botão Finalizar Pedido */
+    .btn-finalizar {
+      background: #d84315;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+    .btn-finalizar:hover {
+      background: #e64a19;
+    }
+    .btn-finalizar:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+
+    /* Modal de Finalização */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-header h2 {
+      margin: 0;
+      color: #d84315;
+    }
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+    .btn-enviar {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: background 0.3s ease;
+    }
+    .btn-enviar:hover {
+      background: #45a049;
+    }
+
+    /* Responsividade para telas menores */
+    @media (max-width: 768px) {
+      .pizza-menu {
+        grid-template-columns: 1fr;
+      }
+      .toggle-menu {
+        bottom: 200px;
+        right: 10px;
+        width: 50px;
+        height: 50px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -191,13 +339,51 @@
     <section class="pizza-menu" id="menu"></section>
   </main>
   
+  <button class="toggle-menu" id="toggleMenu">Bebidas</button>
+  
   <div class="cart-container">
     <section class="cart-section" id="cart">
       <h2>Resumo do Pedido</h2>
       <div id="empty-cart" class="empty-cart">Seu carrinho está vazio</div>
       <ul id="cart-list" class="cart-list"></ul>
       <div id="total" class="total"></div>
+      <button id="btnFinalizar" class="btn-finalizar" disabled>Finalizar Pedido</button>
     </section>
+  </div>
+
+  <!-- Modal de Finalização -->
+  <div class="modal-overlay" id="modalFinalizar">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Finalizar Pedido</h2>
+        <button class="close-modal" id="closeModal">&times;</button>
+      </div>
+      <form id="formFinalizar">
+        <div class="form-group">
+          <label for="endereco">Endereço de Entrega</label>
+          <textarea id="endereco" required placeholder="Rua, Número, Bairro, Complemento"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="telefone">Telefone para Contato</label>
+          <input type="tel" id="telefone" required placeholder="(XX) XXXX-XXXX">
+        </div>
+        <div class="form-group">
+          <label for="pagamento">Forma de Pagamento</label>
+          <select id="pagamento" required>
+            <option value="">Selecione...</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="PIX">PIX</option>
+          </select>
+        </div>
+        <div class="form-group" id="trocoField" style="display: none;">
+          <label for="troco">Troco para (opcional)</label>
+          <input type="text" id="troco" placeholder="R$ 0,00">
+        </div>
+        <button type="submit" class="btn-enviar">Enviar Pedido via WhatsApp</button>
+      </form>
+    </div>
   </div>
 
   <script>
@@ -210,47 +396,82 @@
       { id: 6, name: "Vegana", ingredients: "Molho de tomate, legumes variados, queijo vegano", price: 37, image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" }
     ];
 
+    const bebidas = [
+      { id: 101, name: "Coca-Cola 2L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
+      { id: 102, name: "Guaraná Antarctica 2L", price: 10, image: "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?auto=format&fit=crop&w=600&q=80" },
+      { id: 103, name: "Suco de Laranja 1L", price: 15, image: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=600&q=80" },
+      { id: 104, name: "Água Mineral 500ml", price: 5, image: "https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80" },
+      { id: 105, name: "Cerveja Heineken 600ml", price: 14, image: "https://images.unsplash.com/photo-1618889482923-38250401a84e?auto=format&fit=crop&w=600&q=80" },
+      { id: 106, name: "Vinho Tinto 750ml", price: 45, image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80" }
+    ];
+
     const menuEl = document.getElementById('menu');
     const cartList = document.getElementById('cart-list');
     const totalEl = document.getElementById('total');
     const emptyCartEl = document.getElementById('empty-cart');
+    const toggleMenuBtn = document.getElementById('toggleMenu');
+    const btnFinalizar = document.getElementById('btnFinalizar');
+    const modalFinalizar = document.getElementById('modalFinalizar');
+    const closeModal = document.getElementById('closeModal');
+    const formFinalizar = document.getElementById('formFinalizar');
+    const pagamentoSelect = document.getElementById('pagamento');
+    const trocoField = document.getElementById('trocoField');
+    
     let carrinho = [];
-    let meiaPizzaPendente = null; // Armazena o ID da primeira meia pizza selecionada
+    let meiaPizzaPendente = null;
+    let exibindoBebidas = false;
+
+    // Função para alternar entre pizzas e bebidas
+    function toggleMenu() {
+      exibindoBebidas = !exibindoBebidas;
+      toggleMenuBtn.textContent = exibindoBebidas ? "Pizzas" : "Bebidas";
+      renderMenu();
+    }
 
     function renderMenu() {
       menuEl.innerHTML = '';
-      pizzas.forEach(pizza => {
+      const itens = exibindoBebidas ? bebidas : pizzas;
+      
+      itens.forEach(item => {
         const card = document.createElement('article');
         card.classList.add('pizza-card');
-        card.dataset.id = pizza.id;
+        card.dataset.id = item.id;
 
         card.innerHTML = `
-          <img src="${pizza.image}" alt="${pizza.name}" />
+          <img src="${item.image}" alt="${item.name}" />
           <div class="pizza-info">
-            <h3 class="pizza-name">${pizza.name}</h3>
-            <p class="pizza-ingredients">${pizza.ingredients}</p>
+            <h3 class="pizza-name">${item.name}</h3>
+            ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
             <div class="pizza-footer">
-              <div class="pizza-price">R$ ${pizza.price.toFixed(2)}</div>
+              <div class="pizza-price">R$ ${item.price.toFixed(2)}</div>
             </div>
           </div>
         `;
 
-        const meiaBtn = document.createElement('button');
-        meiaBtn.textContent = 'Meia';
-        meiaBtn.className = 'btn-meia';
-        meiaBtn.onclick = (ev) => {
-          ev.stopPropagation();
-          addMeiaPizza(pizza.id);
-        };
+        if (!exibindoBebidas) {
+          const meiaBtn = document.createElement('button');
+          meiaBtn.textContent = 'Meia';
+          meiaBtn.className = 'btn-meia';
+          meiaBtn.onclick = (ev) => {
+            ev.stopPropagation();
+            addMeiaPizza(item.id);
+          };
+          card.querySelector('.pizza-footer').appendChild(meiaBtn);
+        }
 
-        card.querySelector('.pizza-footer').appendChild(meiaBtn);
-        card.addEventListener('click', () => addPizzaToCart(pizza.id));
+        card.addEventListener('click', () => {
+          if (exibindoBebidas) {
+            addBebidaToCart(item.id);
+          } else {
+            addPizzaToCart(item.id);
+          }
+        });
+        
         menuEl.appendChild(card);
       });
     }
 
     function addPizzaToCart(pizzaId) {
-      // Se há uma meia pizza pendente, completa com a segunda metade
       if (meiaPizzaPendente !== null) {
         const nova = [meiaPizzaPendente, pizzaId].sort((a,b) => a-b);
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
@@ -261,7 +482,6 @@
           carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
         }
         
-        // Remove a meia pizza pendente (se existir no carrinho)
         const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
         if (idxPendente >= 0) {
           carrinho.splice(idxPendente, 1);
@@ -269,7 +489,6 @@
         
         meiaPizzaPendente = null;
       } else {
-        // Adiciona pizza inteira normalmente
         const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
         if (idx >= 0) {
           carrinho[idx].quantity++;
@@ -280,8 +499,17 @@
       renderCart();
     }
 
+    function addBebidaToCart(bebidaId) {
+      const idx = carrinho.findIndex(item => item.type === 'bebida' && item.bebidaId === bebidaId);
+      if (idx >= 0) {
+        carrinho[idx].quantity++;
+      } else {
+        carrinho.push({ type: 'bebida', bebidaId, quantity: 1 });
+      }
+      renderCart();
+    }
+
     function addMeiaPizza(pizzaId) {
-      // Se há uma meia pizza pendente, completa com a segunda metade
       if (meiaPizzaPendente !== null && meiaPizzaPendente !== pizzaId) {
         const nova = [meiaPizzaPendente, pizzaId].sort((a,b) => a-b);
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
@@ -292,7 +520,6 @@
           carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
         }
         
-        // Remove a meia pizza pendente (se existir no carrinho)
         const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
         if (idxPendente >= 0) {
           carrinho.splice(idxPendente, 1);
@@ -300,10 +527,8 @@
         
         meiaPizzaPendente = null;
       } else {
-        // Adiciona como meia pizza pendente (primeira metade)
         meiaPizzaPendente = pizzaId;
         
-        // Verifica se já existe essa meia pizza sozinha no carrinho
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
         if (existente) {
           existente.quantity++;
@@ -319,12 +544,14 @@
         emptyCartEl.style.display = 'block';
         cartList.style.display = 'none';
         totalEl.style.display = 'none';
+        btnFinalizar.disabled = true;
         return;
       }
       
       emptyCartEl.style.display = 'none';
       cartList.style.display = 'block';
       totalEl.style.display = 'block';
+      btnFinalizar.disabled = false;
       cartList.innerHTML = '';
 
       carrinho.forEach((item, index) => {
@@ -346,6 +573,10 @@
             name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
             price = Math.max(pizza1.price, pizza2.price);
           }
+        } else if (item.type === 'bebida') {
+          const bebida = bebidas.find(b => b.id === item.bebidaId);
+          name = bebida.name;
+          price = bebida.price;
         }
 
         const itemTotalPrice = price * item.quantity;
@@ -363,7 +594,6 @@
         cartList.appendChild(li);
       });
 
-      // Calcula total geral
       const total = carrinho.reduce((acc, item) => {
         let price = 0;
         if (item.type === 'inteira') {
@@ -378,6 +608,9 @@
             const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
             price = Math.max(pizza1.price, pizza2.price);
           }
+        } else if (item.type === 'bebida') {
+          const bebida = bebidas.find(b => b.id === item.bebidaId);
+          price = bebida.price;
         }
         return acc + price * item.quantity;
       }, 0);
@@ -394,7 +627,6 @@
       if (carrinho[index].quantity > 1) {
         carrinho[index].quantity--;
       } else {
-        // Se for a meia pizza pendente, limpa a variável
         if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
           meiaPizzaPendente = null;
         }
@@ -403,6 +635,119 @@
       renderCart();
     }
 
+    function abrirModalFinalizar() {
+      modalFinalizar.classList.add('active');
+    }
+
+    function fecharModalFinalizar() {
+      modalFinalizar.classList.remove('active');
+    }
+
+    function formatarPedidoParaWhatsApp() {
+      let mensagem = "🍕 *Pedido Pizzaria Delícia* 🍕\n\n";
+      mensagem += "*Itens do Pedido:*\n";
+      
+      carrinho.forEach(item => {
+        let name, price;
+        
+        if (item.type === 'inteira') {
+          const pizza = pizzas.find(p => p.id === item.pizzaId);
+          name = pizza.name;
+          price = pizza.price;
+        } else if (item.type === 'meia') {
+          if (item.pizzas.length === 1) {
+            const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+            name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
+            price = pizza.price / 2;
+          } else if (item.pizzas.length === 2) {
+            const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+            const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+            name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
+            price = Math.max(pizza1.price, pizza2.price);
+          }
+        } else if (item.type === 'bebida') {
+          const bebida = bebidas.find(b => b.id === item.bebidaId);
+          name = bebida.name;
+          price = bebida.price;
+        }
+        
+        mensagem += `- ${name} x${item.quantity} - R$ ${(price * item.quantity).toFixed(2)}\n`;
+      });
+      
+      const total = carrinho.reduce((acc, item) => {
+        let price = 0;
+        if (item.type === 'inteira') {
+          const pizza = pizzas.find(p => p.id === item.pizzaId);
+          price = pizza.price;
+        } else if (item.type === 'meia') {
+          if (item.pizzas.length === 1) {
+            const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+            price = pizza.price / 2;
+          } else if (item.pizzas.length === 2) {
+            const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+            const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+            price = Math.max(pizza1.price, pizza2.price);
+          }
+        } else if (item.type === 'bebida') {
+          const bebida = bebidas.find(b => b.id === item.bebidaId);
+          price = bebida.price;
+        }
+        return acc + price * item.quantity;
+      }, 0);
+      
+      mensagem += `\n*Total: R$ ${total.toFixed(2)}*\n\n`;
+      mensagem += `*Endereço de Entrega:*\n${document.getElementById('endereco').value}\n\n`;
+      mensagem += `*Telefone:* ${document.getElementById('telefone').value}\n`;
+      mensagem += `*Forma de Pagamento:* ${document.getElementById('pagamento').value}`;
+      
+      const troco = document.getElementById('troco').value;
+      if (troco && document.getElementById('pagamento').value === 'Dinheiro') {
+        mensagem += `\n*Troco para:* ${troco}`;
+      }
+      
+      return encodeURIComponent(mensagem);
+    }
+
+    // Event listeners
+    toggleMenuBtn.addEventListener('click', toggleMenu);
+    btnFinalizar.addEventListener('click', abrirModalFinalizar);
+    closeModal.addEventListener('click', fecharModalFinalizar);
+    
+    // Fechar modal ao clicar fora
+    modalFinalizar.addEventListener('click', (e) => {
+      if (e.target === modalFinalizar) {
+        fecharModalFinalizar();
+      }
+    });
+    
+    // Mostrar campo de troco quando selecionar Dinheiro
+    pagamentoSelect.addEventListener('change', () => {
+      if (pagamentoSelect.value === 'Dinheiro') {
+        trocoField.style.display = 'block';
+      } else {
+        trocoField.style.display = 'none';
+      }
+    });
+    
+    // Enviar pedido via WhatsApp
+    formFinalizar.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const telefonePizzaria = "5511999999999"; // Substitua pelo número real da pizzaria
+      const mensagem = formatarPedidoParaWhatsApp();
+      const urlWhatsApp = `https://wa.me/${telefonePizzaria}?text=${mensagem}`;
+      
+      window.open(urlWhatsApp, '_blank');
+      fecharModalFinalizar();
+      
+      // Limpar carrinho após enviar
+      carrinho = [];
+      meiaPizzaPendente = null;
+      renderCart();
+      formFinalizar.reset();
+    });
+
+    // Inicialização
     renderMenu();
     renderCart();
   </script>
