@@ -70,17 +70,22 @@
   </div>
 
   <script>
-    const pizzas = [
-      { id: 1, name: "Margherita", ingredients: "Molho de tomate, mussarela, manjericão", price: 30, image: "https://images.unsplash.com/photo-1601924582975-1a3a8af6f3f6?auto=format&fit=crop&w=600&q=80" },
-      { id: 2, name: "Pepperoni", ingredients: "Molho de tomate, mussarela, pepperoni", price: 38, image: "https://images.unsplash.com/photo-1594007650864-ff4c6382da46?auto=format&fit=crop&w=600&q=80" },
-      { id: 3, name: "Quatro Queijos", ingredients: "Mussarela, parmesão, gorgonzola, provolone", price: 42, image: "https://images.unsplash.com/photo-1548365328-c7a8c4a3d6ca?auto=format&fit=crop&w=600&q=80" },
-      { id: 4, name: "Frango com Catupiry", ingredients: "Frango desfiado, catupiry, milho", price: 40, image: "https://images.unsplash.com/photo-1578165307967-37fa27bb0b81?auto=format&fit=crop&w=600&q=80" },
-      { id: 5, name: "Portuguesa", ingredients: "Presunto, ovos, cebola, azeitonas", price: 35, image: "https://images.unsplash.com/photo-1548365328-c7a8c4a3d6ca?auto=format&fit=crop&w=600&q=80" },
-      { id: 6, name: "Vegana", ingredients: "Molho de tomate, legumes variados, queijo vegano", price: 37, image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" }
-    ];
+    
+    const pizzas = [];
+
+  fetch('Dados/lalenha/pizzas.json')
+    .then(response => {
+      if (!response.ok) throw new Error("Erro ao carregar o arquivo pizzas.json");
+      return response.json();
+    })
+    .then(data => {
+      pizzas = data;
+      renderizarPizzas();
+    })
+    .catch(error => console.error("Erro no carregamento das pizzas:", error));
 
     const bebidas = [
-      { id: 101, name: "Coca-Cola 2L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
+      { id: 101, name: "Coca-Cola 5L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
       { id: 102, name: "Guaraná Antarctica 2L", price: 10, image: "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?auto=format&fit=crop&w=600&q=80" },
       { id: 103, name: "Suco de Laranja 1L", price: 15, image: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=600&q=80" },
       { id: 104, name: "Água Mineral 500ml", price: 5, image: "https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80" },
