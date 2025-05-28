@@ -10,7 +10,7 @@
       padding: 0; 
       font-family: Arial, sans-serif; 
       background: #fff8f0;
-      padding-top: 70px;
+      padding-top: 120px; /* Aumentei o padding-top para acomodar o novo botão */
       padding-bottom: 180px;
     }
     header {
@@ -181,29 +181,34 @@
       padding: 20px 0;
     }
 
-    /* Botão de alternar entre pizzas/bebidas */
+    /* Novo estilo para o botão de alternar menu - agora na parte superior */
     .toggle-menu {
       position: fixed;
-      bottom: 220px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #d84315;
+      top: 70px; /* Posicionado logo abaixo do header */
+      left: 0;
+      right: 0;
+      height: 50px;
+      background: #ff7043;
       color: white;
       border: none;
-      font-size: 14px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 999;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
     }
     .toggle-menu:hover {
-      transform: scale(1.1);
+      background: #e64a19;
+    }
+    .toggle-menu::before {
+      content: "🍺 ";
+    }
+    .toggle-menu::after {
+      content: " 🍕";
     }
 
     /* Botão Finalizar Pedido */
@@ -317,15 +322,15 @@
 
     /* Responsividade para telas menores */
     @media (max-width: 768px) {
+      body {
+        padding-top: 110px; /* Ajuste para mobile */
+      }
       .pizza-menu {
         grid-template-columns: 1fr;
       }
       .toggle-menu {
-        bottom: 200px;
-        right: 10px;
-        width: 50px;
-        height: 50px;
-        font-size: 12px;
+        height: 45px;
+        font-size: 16px;
       }
     }
   </style>
@@ -335,11 +340,12 @@
     <img src="https://img.icons8.com/ios-filled/50/ffffff/pizza.png" alt="Logo Pizzaria" />
     <h1>Pizzaria Delícia</h1>
   </header>
+  
+  <button class="toggle-menu" id="toggleMenu">BEBIDAS</button>
+  
   <main>
     <section class="pizza-menu" id="menu"></section>
   </main>
-  
-  <button class="toggle-menu" id="toggleMenu">Bebidas</button>
   
   <div class="cart-container">
     <section class="cart-section" id="cart">
@@ -424,7 +430,7 @@
     // Função para alternar entre pizzas e bebidas
     function toggleMenu() {
       exibindoBebidas = !exibindoBebidas;
-      toggleMenuBtn.textContent = exibindoBebidas ? "Pizzas" : "Bebidas";
+      toggleMenuBtn.textContent = exibindoBebidas ? "PIZZAS" : "BEBIDAS";
       renderMenu();
     }
 
