@@ -6,12 +6,18 @@
   <title>Pizzaria Delícia</title>
   <style>
     body {
-      margin: 0; padding: 0; font-family: Arial, sans-serif; background: #fff8f0;
+      margin: 0; 
+      padding: 0; 
+      font-family: Arial, sans-serif; 
+      background: #fff8f0;
       padding-top: 70px;
+      padding-bottom: 180px;
     }
     header {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0; 
+      left: 0; 
+      right: 0;
       height: 60px;
       background: #d84315;
       color: white;
@@ -82,33 +88,45 @@
       font-size: 20px;
       color: #d84315;
     }
-    .cart-section {
+    .cart-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
       background: #fff3e0;
-      border-radius: 8px;
-      margin-top: 40px;
-      padding: 20px;
-      box-shadow: 0 0 10px #d8431540;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 999;
+      padding: 15px 0;
+    }
+    .cart-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
     }
     .cart-section h2 {
       margin-top: 0;
       font-size: 26px;
       color: #d84315;
+      margin-bottom: 10px;
     }
     .cart-list {
       list-style: none;
       padding: 0;
-      margin: 0 0 20px 0;
+      margin: 0 0 10px 0;
+      max-height: 200px;
+      overflow-y: auto;
     }
     .cart-list li {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 20px;
+      font-size: 18px;
       padding: 8px 0;
       border-bottom: 1px solid #d8431540;
     }
     .item-name {
       flex: 1;
+      font-size: 16px;
     }
     .quantity-controls {
       display: flex;
@@ -128,9 +146,10 @@
     }
     .item-price {
       margin-left: 15px;
-      width: 110px;
+      width: 80px;
       text-align: right;
       font-weight: 700;
+      font-size: 16px;
     }
     .btn-meia {
       margin-left: 15px;
@@ -148,10 +167,18 @@
       background: #e64a19;
     }
     .total {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       text-align: right;
       color: #d84315;
+      padding: 10px 0;
+      border-top: 2px solid #d84315;
+    }
+    .empty-cart {
+      text-align: center;
+      color: #666;
+      font-style: italic;
+      padding: 20px 0;
     }
   </style>
 </head>
@@ -162,12 +189,16 @@
   </header>
   <main>
     <section class="pizza-menu" id="menu"></section>
-    <section class="cart-section" id="cart" style="display:none;">
+  </main>
+  
+  <div class="cart-container">
+    <section class="cart-section" id="cart">
       <h2>Resumo do Pedido</h2>
+      <div id="empty-cart" class="empty-cart">Seu carrinho está vazio</div>
       <ul id="cart-list" class="cart-list"></ul>
       <div id="total" class="total"></div>
     </section>
-  </main>
+  </div>
 
   <script>
     const pizzas = [
@@ -180,10 +211,11 @@
     ];
 
     const menuEl = document.getElementById('menu');
-    const cartSection = document.getElementById('cart');
     const cartList = document.getElementById('cart-list');
     const totalEl = document.getElementById('total');
+    const emptyCartEl = document.getElementById('empty-cart');
     let carrinho = [];
+    let meiaPizzaPendente = null; // Armazena o ID da primeira meia pizza selecionada
 
     function renderMenu() {
       menuEl.innerHTML = '';
@@ -218,30 +250,60 @@
     }
 
     function addPizzaToCart(pizzaId) {
-      const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
-      if (idx >= 0) {
-        carrinho[idx].quantity++;
-      } else {
-        carrinho.push({ type: 'inteira', pizzaId, quantity: 1 });
-      }
-      renderCart();
-    }
-
-    function addMeiaPizza(pizzaId) {
-      // Busca uma meia pizza com apenas um sabor diferente do selecionado
-      const idx = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] !== pizzaId);
-      if (idx >= 0) {
-        const outra = carrinho[idx].pizzas[0];
-        carrinho.splice(idx, 1);
-        const nova = [outra, pizzaId].sort((a,b) => a-b);
+      // Se há uma meia pizza pendente, completa com a segunda metade
+      if (meiaPizzaPendente !== null) {
+        const nova = [meiaPizzaPendente, pizzaId].sort((a,b) => a-b);
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
+        
         if (existente) {
           existente.quantity++;
         } else {
           carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
         }
+        
+        // Remove a meia pizza pendente (se existir no carrinho)
+        const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
+        if (idxPendente >= 0) {
+          carrinho.splice(idxPendente, 1);
+        }
+        
+        meiaPizzaPendente = null;
       } else {
-        // Se não existe meia pizza "solitária", adiciona meia pizza só com um sabor
+        // Adiciona pizza inteira normalmente
+        const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
+        if (idx >= 0) {
+          carrinho[idx].quantity++;
+        } else {
+          carrinho.push({ type: 'inteira', pizzaId, quantity: 1 });
+        }
+      }
+      renderCart();
+    }
+
+    function addMeiaPizza(pizzaId) {
+      // Se há uma meia pizza pendente, completa com a segunda metade
+      if (meiaPizzaPendente !== null && meiaPizzaPendente !== pizzaId) {
+        const nova = [meiaPizzaPendente, pizzaId].sort((a,b) => a-b);
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
+        
+        if (existente) {
+          existente.quantity++;
+        } else {
+          carrinho.push({ type: 'meia', pizzas: nova, quantity: 1 });
+        }
+        
+        // Remove a meia pizza pendente (se existir no carrinho)
+        const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
+        if (idxPendente >= 0) {
+          carrinho.splice(idxPendente, 1);
+        }
+        
+        meiaPizzaPendente = null;
+      } else {
+        // Adiciona como meia pizza pendente (primeira metade)
+        meiaPizzaPendente = pizzaId;
+        
+        // Verifica se já existe essa meia pizza sozinha no carrinho
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
         if (existente) {
           existente.quantity++;
@@ -254,10 +316,15 @@
 
     function renderCart() {
       if (carrinho.length === 0) {
-        cartSection.style.display = 'none';
+        emptyCartEl.style.display = 'block';
+        cartList.style.display = 'none';
+        totalEl.style.display = 'none';
         return;
       }
-      cartSection.style.display = 'block';
+      
+      emptyCartEl.style.display = 'none';
+      cartList.style.display = 'block';
+      totalEl.style.display = 'block';
       cartList.innerHTML = '';
 
       carrinho.forEach((item, index) => {
@@ -270,15 +337,13 @@
           price = pizza.price;
         } else if (item.type === 'meia') {
           if (item.pizzas.length === 1) {
-            // meia pizza só com um sabor
             const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-            name = `Meia pizza de ${pizza.name}`;
+            name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
             price = pizza.price / 2;
           } else if (item.pizzas.length === 2) {
             const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
             const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
-            name = `Meia pizza de ${pizza1.name} + meia pizza de ${pizza2.name}`;
-            // preço = maior preço das duas pizzas (ajuste solicitado)
+            name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
             price = Math.max(pizza1.price, pizza2.price);
           }
         }
@@ -329,12 +394,17 @@
       if (carrinho[index].quantity > 1) {
         carrinho[index].quantity--;
       } else {
+        // Se for a meia pizza pendente, limpa a variável
+        if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
+          meiaPizzaPendente = null;
+        }
         carrinho.splice(index, 1);
       }
       renderCart();
     }
 
     renderMenu();
+    renderCart();
   </script>
 </body>
 </html>
