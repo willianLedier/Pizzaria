@@ -77,7 +77,7 @@
   .then(res => res.json())
   .then(data => {
     pizzas = data; // aqui pizzas é o resultado real, um array de objetos
-    console.log(pizzas);
+    renderMenu();
    })
   .catch(err => console.error(err));
     
@@ -467,7 +467,6 @@
     });
 
     // Inicialização
-    renderMenu();
     renderCart();
   </script>
 </body>
