@@ -72,6 +72,7 @@
   <script>
 
   let pizzas;
+  let bebidas;
 
   fetch('dados/lalenha/pizzas.json')
   .then(res => res.json())
@@ -80,15 +81,13 @@
     renderMenu();
    })
   .catch(err => console.error(err));
-    
-    const bebidas = [
-      { id: 101, name: "Coca-Cola 14L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
-      { id: 102, name: "Guaraná Antarctica 2L", price: 10, image: "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?auto=format&fit=crop&w=600&q=80" },
-      { id: 103, name: "Suco de Laranja 1L", price: 15, image: "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=600&q=80" },
-      { id: 104, name: "Água Mineral 500ml", price: 5, image: "https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80" },
-      { id: 105, name: "Cerveja Heineken 600ml", price: 14, image: "https://images.unsplash.com/photo-1618889482923-38250401a84e?auto=format&fit=crop&w=600&q=80" },
-      { id: 106, name: "Vinho Tinto 750ml", price: 45, image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80" }
-    ];
+
+  fetch('dados/lalenha/bebidas.json')
+  .then(res => res.json())
+  .then(data => {
+    bebidas = data; 
+   })
+  .catch(err => console.error(err)); 
 
     const menuEl = document.getElementById('menu');
     const cartList = document.getElementById('cart-list');
