@@ -71,9 +71,25 @@
 
   <script>
 
-    let pizzas = fetch('dados/lalenha/pizzas.json').then(res => res.json());
-    console.log(pizzas); 
+  let pizzas;
 
+  fetch('dados/lalenha/pizzas.json')
+  .then(res => res.json())
+  .then(data => {
+    pizzas = data; // aqui pizzas é o resultado real, um array de objetos
+    console.log(pizzas);
+    // Agora chame sua função que atualiza o HTML passando pizzas
+    preencherHtml(pizzas);
+  })
+  .catch(err => console.error(err));
+
+    fetch('dados/lalenha/pizzas.json')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);  // aqui o JSON já está disponível
+      });
+
+    
     const bebidas = [
       { id: 101, name: "Coca-Cola 12L", price: 12, image: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80" },
       { id: 102, name: "Guaraná Antarctica 2L", price: 10, image: "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?auto=format&fit=crop&w=600&q=80" },
