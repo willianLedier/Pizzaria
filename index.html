@@ -10,6 +10,9 @@
   <header>
     <img src="https://img.icons8.com/ios-filled/50/ffffff/pizza.png" alt="Logo Pizzaria" />
     <h1>Pizzaria Delícia</h1>
+
+    <img id="logo-pizzaria" src="" alt="Logo Pizzaria" />
+    <h1 id="nome-pizzaria"></h1>
   </header>
   
   <button class="toggle-menu" id="toggleMenu">Ir para BEBIDAS</button>
@@ -70,6 +73,17 @@
   </div>
 
   <script>
+ 
+ // Configurações
+ fetch('dados/lalenha/configuracoes.json')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('logo-pizzaria').src = data.logo;
+    document.getElementById('nome-pizzaria').textContent = data.nome;
+  })
+  .catch(error => {
+    console.error('Erro ao carregar os dados da pizzaria:', error);
+  });
 
   let pizzas;
   let bebidas;
