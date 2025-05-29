@@ -1,0 +1,19 @@
+# VS Code
+.vscode/
+
+# Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Arquivos de backup temporários
+*.tmp
+*.bak
+*.swp
+*~
+
+# Mac OS e Windows
+.DS_Store
+Thumbs.db
