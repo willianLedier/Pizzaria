@@ -82,7 +82,7 @@ function renderMenu() {
         <h3 class="pizza-name">${item.name}</h3>
         ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
         <div class="pizza-footer">
-            <div class="pizza-price">R$ ${item.price.toFixed(2)}</div>
+            <div class="pizza-price">R$ ${item.price.toFixed(2)}</div> ${!exibindoBebidas ? `(inteira)` : ''}
         </div>
     </div>
     `;
@@ -236,7 +236,7 @@ function renderCart() {
         } else if (item.type === 'meia') {
             if (item.pizzas.length === 1) {
                 const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-                name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
+                name = `Meia pizza de ${pizza.name} <b>(escolha outra metade)</b>`;
                 price = pizza.price / 2;
             } else if (item.pizzas.length === 2) {
                 const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
