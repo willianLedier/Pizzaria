@@ -6,29 +6,35 @@
       padding-top: 120px;
       padding-bottom: 180px;
     }
-    header {
-      position: fixed;
-      top: 0; 
-      left: 0; 
-      right: 0;
-      height: 60px;
-      background: #d84315;
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
-    header img {
-      height: 40px;
-      margin-right: 12px;
-    }
-    header h1 {
-      font-size: 24px;
-      margin: 0;
-      font-weight: bold;
-    }
+ header {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  right: 0;
+  height: 60px;
+  background: #d84315;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  z-index: 1000;
+}
+
+header img {
+  height: 50px;
+  margin-right: 12px;
+  border-radius: 8px;
+  background: white;
+  padding: 4px;
+}
+
+header h1 {
+  font-size: 24px;
+  margin: 0;
+  font-weight: bold;
+}
+
     main {
       max-width: 1000px;
       margin: 20px auto;
