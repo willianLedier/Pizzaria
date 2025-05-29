@@ -1,12 +1,10 @@
 [
 
-  // Atum
   { "id": 1, "name": "Atum", "ingredients": "atum e cobertura de cebola.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 2, "name": "Florença", "ingredients": "atum e cobertura de mussarela.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 3, "name": "Firenze", "ingredients": "atum e cobertura de catupiry.", "price": 67, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 4, "name": "Do Chefe", "ingredients": "atum, palmito, ervilha, cebola, ovos e mussarela.", "price": 70, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   
-  // Calabresa
   { "id": 5, "name": "Calabresa", "ingredients": "calabresa e cobertura de cebola.", "price": 55, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 6, "name": "Toscana", "ingredients": "calabresa e cobertura de mussarela.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 7, "name": "Baiana", "ingredients": "calabresa picada, cebola, pimenta e ovos.", "price": 55, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
@@ -14,27 +12,23 @@
   { "id": 9, "name": "Tropicana", "ingredients": "calabresa e cobertura de catupiry.", "price": 63, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 10, "name": "Tropicana II", "ingredients": "calabresa, palmito, ervilha, cebola, ovos, mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
 
-  // Queijos
   { "id": 11, "name": "Mussarela", "ingredients": "mussarela e rodelas de tomate.", "price": 55, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 12, "name": "Napolitana", "ingredients": "mussarela, parmesão e rodelas de tomate.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 13, "name": "Dois Queijos", "ingredients": "mussarela, catupiry e rodelas de tomate.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 14, "name": "Quatro Queijos", "ingredients": "mussarela, catupiry, provolone, parmesão e tomate.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 15, "name": "Cinco Queijos", "ingredients": "mussarela, catupiry, provolone, parmesão e gorgonzola.", "price": 70, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   
-  // Lombo
   { "id": 16, "name": "Come Bem", "ingredients": "lombo, molho vinagrete e bacon.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 17, "name": "Fiorentina", "ingredients": "lombo e cobertura de mussarela.", "price": 30, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 18, "name": "La Lenha", "ingredients": "lombo, bacon e catupiry.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 19, "name": "Paulista", "ingredients": "lombo, palmito, ervilha, cebola, ovos e mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   
-  // Presunto
   { "id": 20, "name": "Bauru", "ingredients": "presunto, mussarela e rodelas de tomate.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 21, "name": "Verona", "ingredients": "presunto, bacon e cobertura de mussarela.", "price": 62, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 22, "name": "Verona II", "ingredients": "presunto, bacon e cobertura de catupiry.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 23, "name": "Da Mama", "ingredients": "presunto, provolone, bacon e catupiry.", "price": 66, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 24, "name": "Portuguesa", "ingredients": "presunto, palmito, ervilha, cebola, ovos e mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
 
-  // Frango
   { "id": 25, "name": "Frango C/ Mussarela", "ingredients": "frango e cobertura de mussarela.", "price": 63, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 26, "name": "Franguete", "ingredients": "frango, molho vinagrete e cobertura de mussarela.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 27, "name": "Do Pizzaiolo", "ingredients": "frango, milho e cobertura de mussarela.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
@@ -43,7 +37,6 @@
   { "id": 30, "name": "Caipira", "ingredients": "frango, bacon e cobertura de catupiry.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 31, "name": "Frango II", "ingredients": "frango, palmito, milho, cebola e mussarela.", "price": 70, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   
-  // Especiais
   { "id": 32, "name": "Campestre", "ingredients": "catupiry e uvas passas.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 33, "name": "Marguerita", "ingredients": "mussarela, manjericão e parmesão.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 34, "name": "Escarola", "ingredients": "escarola, bacon e cobertura de mussarela.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
