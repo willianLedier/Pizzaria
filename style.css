@@ -127,8 +127,7 @@ main {
     margin: 0 2px 20px 2px;
     max-height: 100px;
     height: 100px; /* <- Define a altura fixa */
-    overflow-y: auto; 
-}
+    overflow-y: auto;
 }
 
     .cart-list li {
