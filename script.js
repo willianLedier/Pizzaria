@@ -100,7 +100,7 @@ function renderMenu() {
 }
 
 function addPizzaToCart(pizzaId) {
-    if (meiaPizzaPendente !== null) {
+    if (meiaPizzaPendente !== null && meiaPizzaPendente !== pizzaId) {
         const nova = [meiaPizzaPendente, pizzaId].sort((a, b) => a - b);
         const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
 
