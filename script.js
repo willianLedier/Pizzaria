@@ -28,6 +28,14 @@ fetch('dados/lalenha/bebidas.json')
     })
     .catch(err => console.error(err));
 
+const toggle = document.getElementById('toggleCart');
+const content = document.getElementById('cart');
+
+toggle.addEventListener('click', () => {
+    content.classList.toggle('hidden');
+    toggle.textContent = content.classList.contains('hidden') ? '▼' : '▲';
+});
+
 const menuEl = document.getElementById('menu');
 const cartList = document.getElementById('cart-list');
 const totalEl = document.getElementById('total');

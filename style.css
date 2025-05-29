@@ -102,18 +102,46 @@ main {
     bottom: 0;
     left: 0;
     right: 0;
-    background: #fff3e0;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    background-color: #fff3e0;
     z-index: 999;
-    padding: 15px 0;
 }
+
+
+/* Toggle no topo */
+.cart-toggle {
+    text-align: center;
+    font-size: 24px;
+    cursor: pointer;
+    background-color: #fff3e0;
+    padding: 8px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    border-bottom: 1px solid #ccc;
+}
+
+    .cart-toggle:hover {
+        background-color: #e64a19;
+    }
 
 .cart-section {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 20px;
+    padding: 16px;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    overflow: hidden;
+    max-height: 1000px;
+    opacity: 1;
 }
 
+    .cart-section.hidden {
+        max-height: 0;
+        opacity: 0;
+        padding: 0 16px;
+        pointer-events: none;
+    }
     .cart-section h2 {
         margin-top: 0;
         font-size: 26px;
@@ -256,7 +284,9 @@ main {
     }
 
     .btn-finalizar:disabled {
-        background: #cccccc;
+        background-color: #d84315;
+        color: white;
+        opacity: 0.5;
         cursor: not-allowed;
     }
 
