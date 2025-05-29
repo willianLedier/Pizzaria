@@ -89,7 +89,7 @@ function renderMenu() {
 
         if (!exibindoBebidas) {
             const meiaBtn = document.createElement('button');
-            meiaBtn.textContent = 'Meia';
+            meiaBtn.textContent = '+ Meia';
             meiaBtn.className = 'btn-meia';
             meiaBtn.onclick = (ev) => {
                 ev.stopPropagation();
