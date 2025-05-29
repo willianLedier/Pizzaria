@@ -438,11 +438,6 @@
 
             mensagem += `\n*Total: R$ ${total.toFixed(2)}*\n\n`;
 
-            const observacao = document.getElementById('observacao').value;
-            if (observacao) {
-                mensagem += `\n\n*Observações:*\n${observacao}`;
-            }
-
             mensagem += `*Endereço de Entrega:*\n${document.getElementById('endereco').value}, ${document.getElementById('numero').value}`;
 
             const complemento = document.getElementById('complemento').value;
@@ -455,6 +450,11 @@
             const troco = document.getElementById('troco').value;
             if (troco && document.getElementById('pagamento').value === 'Dinheiro') {
                 mensagem += `\n*Troco para:* ${troco}`;
+            }
+
+            const observacao = document.getElementById('observacao').value;
+            if (observacao) {
+                mensagem += `\n\n*Observações:*\n${observacao}`;
             }
 
             return encodeURIComponent(mensagem);
