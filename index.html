@@ -70,35 +70,34 @@
   </div>
 
   <script>
- 
- // Configurações
- fetch('dados/lalenha/configuracoes.json')
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('logo-pizzaria').src = data.logo;
-    document.getElementById('nome-pizzaria').textContent = data.nome;
-  })
-  .catch(error => {
-    console.error('Erro ao carregar os dados da pizzaria:', error);
-  });
+    // Configurações
+    fetch('dados/lalenha/configuracoes.json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('logo-pizzaria').src = data.logo;
+        document.getElementById('nome-pizzaria').textContent = data.nome;
+      })
+      .catch(error => {
+        console.error('Erro ao carregar os dados da pizzaria:', error);
+      });
 
-  let pizzas;
-  let bebidas;
+    let pizzas;
+    let bebidas;
 
-  fetch('dados/lalenha/pizzas.json')
-  .then(res => res.json())
-  .then(data => {
-    pizzas = data; // aqui pizzas é o resultado real, um array de objetos
-    renderMenu();
-   })
-  .catch(err => console.error(err));
+    fetch('dados/lalenha/pizzas.json')
+      .then(res => res.json())
+      .then(data => {
+        pizzas = data;
+        renderMenu();
+      })
+      .catch(err => console.error(err));
 
-  fetch('dados/lalenha/bebidas.json')
-  .then(res => res.json())
-  .then(data => {
-    bebidas = data; 
-   })
-  .catch(err => console.error(err)); 
+    fetch('dados/lalenha/bebidas.json')
+      .then(res => res.json())
+      .then(data => {
+        bebidas = data; 
+      })
+      .catch(err => console.error(err)); 
 
     const menuEl = document.getElementById('menu');
     const cartList = document.getElementById('cart-list');
@@ -115,6 +114,11 @@
     let carrinho = [];
     let meiaPizzaPendente = null;
     let exibindoBebidas = false;
+
+    // Função para verificar se há meia pizza pendente
+    function hasPendingHalfPizza() {
+      return carrinho.some(item => item.type === 'meia' && item.pizzas.length === 1);
+    }
 
     // Função para alternar entre pizzas e bebidas
     function toggleMenu() {
@@ -271,7 +275,10 @@
       emptyCartEl.style.display = 'none';
       cartList.style.display = 'block';
       totalEl.style.display = 'block';
-      btnFinalizar.disabled = false;
+      
+      // Desabilita o botão se houver meia pizza pendente
+      btnFinalizar.disabled = hasPendingHalfPizza();
+      
       cartList.innerHTML = '';
 
       // Ordena os itens por timestamp (mais recente primeiro)
@@ -360,6 +367,10 @@
     }
 
     function abrirModalFinalizar() {
+      if (hasPendingHalfPizza()) {
+        alert('Você tem meia pizza pendente. Por favor, selecione a outra metade antes de finalizar.');
+        return;
+      }
       modalFinalizar.classList.add('active');
     }
 
