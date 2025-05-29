@@ -153,8 +153,8 @@ main {
     list-style: none;
     padding: 0;
     margin: 0 2px 20px 2px;
-    max-height: 200px;
-    height: 200px;
+    max-height: 150px;
+    height: 150px;
     overflow-y: auto;
 }
 
