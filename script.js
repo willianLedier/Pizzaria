@@ -1,71 +1,71 @@
-﻿<script>
-        // Configurações
-    fetch('dados/lalenha/configuracoes.json')
-            .then(response => response.json())
-            .then(data => {
+﻿
+// Configurações
+fetch('dados/lalenha/configuracoes.json')
+    .then(response => response.json())
+    .then(data => {
         document.getElementById('logo-pizzaria').src = data.logo;
-    document.getElementById('nome-pizzaria').textContent = data.nome;
-            })
-            .catch(error => {
+        document.getElementById('nome-pizzaria').textContent = data.nome;
+    })
+    .catch(error => {
         console.error('Erro ao carregar os dados da pizzaria:', error);
-            });
+    });
 
-    let pizzas;
-    let bebidas;
+let pizzas;
+let bebidas;
 
-    fetch('dados/lalenha/pizzas.json')
-            .then(res => res.json())
-            .then(data => {
+fetch('dados/lalenha/pizzas.json')
+    .then(res => res.json())
+    .then(data => {
         pizzas = data;
-    renderMenu();
-            })
-            .catch(err => console.error(err));
+        renderMenu();
+    })
+    .catch(err => console.error(err));
 
-    fetch('dados/lalenha/bebidas.json')
-            .then(res => res.json())
-            .then(data => {
+fetch('dados/lalenha/bebidas.json')
+    .then(res => res.json())
+    .then(data => {
         bebidas = data;
-            })
-            .catch(err => console.error(err));
+    })
+    .catch(err => console.error(err));
 
-    const menuEl = document.getElementById('menu');
-    const cartList = document.getElementById('cart-list');
-    const totalEl = document.getElementById('total');
-    const emptyCartEl = document.getElementById('empty-cart');
-    const toggleMenuBtn = document.getElementById('toggleMenu');
-    const btnFinalizar = document.getElementById('btnFinalizar');
-    const modalFinalizar = document.getElementById('modalFinalizar');
-    const closeModal = document.getElementById('closeModal');
-    const formFinalizar = document.getElementById('formFinalizar');
-    const pagamentoSelect = document.getElementById('pagamento');
-    const trocoField = document.getElementById('trocoField');
+const menuEl = document.getElementById('menu');
+const cartList = document.getElementById('cart-list');
+const totalEl = document.getElementById('total');
+const emptyCartEl = document.getElementById('empty-cart');
+const toggleMenuBtn = document.getElementById('toggleMenu');
+const btnFinalizar = document.getElementById('btnFinalizar');
+const modalFinalizar = document.getElementById('modalFinalizar');
+const closeModal = document.getElementById('closeModal');
+const formFinalizar = document.getElementById('formFinalizar');
+const pagamentoSelect = document.getElementById('pagamento');
+const trocoField = document.getElementById('trocoField');
 
-    let carrinho = [];
-    let meiaPizzaPendente = null;
-    let exibindoBebidas = false;
+let carrinho = [];
+let meiaPizzaPendente = null;
+let exibindoBebidas = false;
 
-    // Função para verificar se há meia pizza pendente
-    function hasPendingHalfPizza() {
-            return carrinho.some(item => item.type === 'meia' && item.pizzas.length === 1);
-        }
+// Função para verificar se há meia pizza pendente
+function hasPendingHalfPizza() {
+    return carrinho.some(item => item.type === 'meia' && item.pizzas.length === 1);
+}
 
-    // Função para alternar entre pizzas e bebidas
-    function toggleMenu() {
-        exibindoBebidas = !exibindoBebidas;
+// Função para alternar entre pizzas e bebidas
+function toggleMenu() {
+    exibindoBebidas = !exibindoBebidas;
     toggleMenuBtn.textContent = exibindoBebidas ? "Ir para PIZZAS" : "Ir para BEBIDAS";
     renderMenu();
-        }
+}
 
-    function renderMenu() {
-        menuEl.innerHTML = '';
+function renderMenu() {
+    menuEl.innerHTML = '';
     const itens = exibindoBebidas ? bebidas : pizzas;
 
-            itens.forEach(item => {
-                const card = document.createElement('article');
-    card.classList.add('pizza-card');
-    card.dataset.id = item.id;
+    itens.forEach(item => {
+        const card = document.createElement('article');
+        card.classList.add('pizza-card');
+        card.dataset.id = item.id;
 
-    card.innerHTML = `
+        card.innerHTML = `
     <img src="${item.image}" alt="${item.name}" />
     <div class="pizza-info">
         <h3 class="pizza-name">${item.name}</h3>
@@ -76,130 +76,130 @@
     </div>
     `;
 
-    if (!exibindoBebidas) {
-                    const meiaBtn = document.createElement('button');
-    meiaBtn.textContent = 'Meia';
-    meiaBtn.className = 'btn-meia';
-                    meiaBtn.onclick = (ev) => {
-        ev.stopPropagation();
-    addMeiaPizza(item.id);
-                    };
-    card.querySelector('.pizza-footer').appendChild(meiaBtn);
-                }
+        if (!exibindoBebidas) {
+            const meiaBtn = document.createElement('button');
+            meiaBtn.textContent = 'Meia';
+            meiaBtn.className = 'btn-meia';
+            meiaBtn.onclick = (ev) => {
+                ev.stopPropagation();
+                addMeiaPizza(item.id);
+            };
+            card.querySelector('.pizza-footer').appendChild(meiaBtn);
+        }
 
-                card.addEventListener('click', () => {
-                    if (exibindoBebidas) {
-        addBebidaToCart(item.id);
-                    } else {
-        addPizzaToCart(item.id);
-                    }
-                });
+        card.addEventListener('click', () => {
+            if (exibindoBebidas) {
+                addBebidaToCart(item.id);
+            } else {
+                addPizzaToCart(item.id);
+            }
+        });
 
-    menuEl.appendChild(card);
+        menuEl.appendChild(card);
+    });
+}
+
+function addPizzaToCart(pizzaId) {
+    if (meiaPizzaPendente !== null) {
+        const nova = [meiaPizzaPendente, pizzaId].sort((a, b) => a - b);
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
+
+        if (existente) {
+            existente.quantity++;
+        } else {
+            carrinho.push({
+                type: 'meia',
+                pizzas: nova,
+                quantity: 1,
+                timestamp: Date.now()
             });
         }
 
-    function addPizzaToCart(pizzaId) {
-            if (meiaPizzaPendente !== null) {
-                const nova = [meiaPizzaPendente, pizzaId].sort((a, b) => a - b);
-                const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
-
-    if (existente) {
-        existente.quantity++;
-                } else {
-        carrinho.push({
-            type: 'meia',
-            pizzas: nova,
-            quantity: 1,
-            timestamp: Date.now()
-        });
-                }
-
-                const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
-                if (idxPendente >= 0) {
-        carrinho.splice(idxPendente, 1);
-                }
-
-    meiaPizzaPendente = null;
-            } else {
-                const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
-                if (idx >= 0) {
-        carrinho[idx].quantity++;
-                } else {
-        carrinho.push({
-            type: 'inteira',
-            pizzaId,
-            quantity: 1,
-            timestamp: Date.now()
-        });
-                }
-            }
-    renderCart();
+        const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
+        if (idxPendente >= 0) {
+            carrinho.splice(idxPendente, 1);
         }
 
-    function addBebidaToCart(bebidaId) {
-            const idx = carrinho.findIndex(item => item.type === 'bebida' && item.bebidaId === bebidaId);
-            if (idx >= 0) {
+        meiaPizzaPendente = null;
+    } else {
+        const idx = carrinho.findIndex(item => item.type === 'inteira' && item.pizzaId === pizzaId);
+        if (idx >= 0) {
+            carrinho[idx].quantity++;
+        } else {
+            carrinho.push({
+                type: 'inteira',
+                pizzaId,
+                quantity: 1,
+                timestamp: Date.now()
+            });
+        }
+    }
+    renderCart();
+}
+
+function addBebidaToCart(bebidaId) {
+    const idx = carrinho.findIndex(item => item.type === 'bebida' && item.bebidaId === bebidaId);
+    if (idx >= 0) {
         carrinho[idx].quantity++;
-            } else {
+    } else {
         carrinho.push({
             type: 'bebida',
             bebidaId,
             quantity: 1,
             timestamp: Date.now()
         });
-            }
+    }
     renderCart();
+}
+
+function addMeiaPizza(pizzaId) {
+    if (meiaPizzaPendente !== null && meiaPizzaPendente !== pizzaId) {
+        const nova = [meiaPizzaPendente, pizzaId].sort((a, b) => a - b);
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
+
+        if (existente) {
+            existente.quantity++;
+        } else {
+            carrinho.push({
+                type: 'meia',
+                pizzas: nova,
+                quantity: 1,
+                timestamp: Date.now()
+            });
         }
 
-    function addMeiaPizza(pizzaId) {
-            if (meiaPizzaPendente !== null && meiaPizzaPendente !== pizzaId) {
-                const nova = [meiaPizzaPendente, pizzaId].sort((a, b) => a - b);
-                const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 2 && i.pizzas.join() === nova.join());
+        const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
+        if (idxPendente >= 0) {
+            carrinho.splice(idxPendente, 1);
+        }
 
-    if (existente) {
-        existente.quantity++;
-                } else {
-        carrinho.push({
-            type: 'meia',
-            pizzas: nova,
-            quantity: 1,
-            timestamp: Date.now()
-        });
-                }
-
-                const idxPendente = carrinho.findIndex(item => item.type === 'meia' && item.pizzas.length === 1 && item.pizzas[0] === meiaPizzaPendente);
-                if (idxPendente >= 0) {
-        carrinho.splice(idxPendente, 1);
-                }
-
-    meiaPizzaPendente = null;
-            } else {
+        meiaPizzaPendente = null;
+    } else {
         meiaPizzaPendente = pizzaId;
 
-                const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
-    if (existente) {
-        existente.quantity++;
-                } else {
-        carrinho.push({
-            type: 'meia',
-            pizzas: [pizzaId],
-            quantity: 1,
-            timestamp: Date.now()
-        });
-                }
-            }
-    renderCart();
+        const existente = carrinho.find(i => i.type === 'meia' && i.pizzas.length === 1 && i.pizzas[0] === pizzaId);
+        if (existente) {
+            existente.quantity++;
+        } else {
+            carrinho.push({
+                type: 'meia',
+                pizzas: [pizzaId],
+                quantity: 1,
+                timestamp: Date.now()
+            });
         }
+    }
+    renderCart();
+}
 
-    function renderCart() {
-            if (carrinho.length === 0) {
+function renderCart() {
+    if (carrinho.length === 0) {
         emptyCartEl.style.display = 'block';
-    cartList.style.display = 'none';
-    totalEl.style.display = 'none';
-    btnFinalizar.disabled = true;
-    return;
-            }
+        cartList.style.display = 'none';
+        totalEl.style.display = 'none';
+        btnFinalizar.disabled = true;
+        return;
+    }
 
     emptyCartEl.style.display = 'none';
     cartList.style.display = 'block';
@@ -210,38 +210,38 @@
 
     cartList.innerHTML = '';
 
-            // Ordena os itens por timestamp (mais recente primeiro)
-            const carrinhoOrdenado = [...carrinho].sort((a, b) => b.timestamp - a.timestamp);
+    // Ordena os itens por timestamp (mais recente primeiro)
+    const carrinhoOrdenado = [...carrinho].sort((a, b) => b.timestamp - a.timestamp);
 
-            carrinhoOrdenado.forEach((item, index) => {
-                const originalIndex = carrinho.findIndex(i => i.timestamp === item.timestamp);
-    const li = document.createElement('li');
-    let name, price;
+    carrinhoOrdenado.forEach((item, index) => {
+        const originalIndex = carrinho.findIndex(i => i.timestamp === item.timestamp);
+        const li = document.createElement('li');
+        let name, price;
 
-    if (item.type === 'inteira') {
-                    const pizza = pizzas.find(p => p.id === item.pizzaId);
-    name = pizza.name;
-    price = pizza.price;
-                } else if (item.type === 'meia') {
-                    if (item.pizzas.length === 1) {
-                        const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-    name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
-    price = pizza.price / 2;
-                    } else if (item.pizzas.length === 2) {
-                        const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
-                        const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
-    name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
-    price = Math.max(pizza1.price, pizza2.price);
-                    }
-                } else if (item.type === 'bebida') {
-                    const bebida = bebidas.find(b => b.id === item.bebidaId);
-    name = bebida.name;
-    price = bebida.price;
-                }
+        if (item.type === 'inteira') {
+            const pizza = pizzas.find(p => p.id === item.pizzaId);
+            name = pizza.name;
+            price = pizza.price;
+        } else if (item.type === 'meia') {
+            if (item.pizzas.length === 1) {
+                const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+                name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
+                price = pizza.price / 2;
+            } else if (item.pizzas.length === 2) {
+                const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+                const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+                name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
+                price = Math.max(pizza1.price, pizza2.price);
+            }
+        } else if (item.type === 'bebida') {
+            const bebida = bebidas.find(b => b.id === item.bebidaId);
+            name = bebida.name;
+            price = bebida.price;
+        }
 
-    const itemTotalPrice = price * item.quantity;
+        const itemTotalPrice = price * item.quantity;
 
-    li.innerHTML = `
+        li.innerHTML = `
     <div class="item-name">${name} R$ ${price.toFixed(2)}</div>
     <div class="quantity-controls">
         <button onclick="decrement(${originalIndex})">−</button>
@@ -251,113 +251,113 @@
     <div class="item-price">R$ ${itemTotalPrice.toFixed(2)}</div>
     `;
 
-    cartList.appendChild(li);
-            });
+        cartList.appendChild(li);
+    });
 
-            const total = carrinho.reduce((acc, item) => {
+    const total = carrinho.reduce((acc, item) => {
         let price = 0;
-    if (item.type === 'inteira') {
-                    const pizza = pizzas.find(p => p.id === item.pizzaId);
-    price = pizza.price;
-                } else if (item.type === 'meia') {
-                    if (item.pizzas.length === 1) {
-                        const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-    price = pizza.price / 2;
-                    } else if (item.pizzas.length === 2) {
-                        const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
-                        const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
-    price = Math.max(pizza1.price, pizza2.price);
-                    }
-                } else if (item.type === 'bebida') {
-                    const bebida = bebidas.find(b => b.id === item.bebidaId);
-    price = bebida.price;
-                }
-    return acc + price * item.quantity;
-            }, 0);
+        if (item.type === 'inteira') {
+            const pizza = pizzas.find(p => p.id === item.pizzaId);
+            price = pizza.price;
+        } else if (item.type === 'meia') {
+            if (item.pizzas.length === 1) {
+                const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+                price = pizza.price / 2;
+            } else if (item.pizzas.length === 2) {
+                const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+                const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+                price = Math.max(pizza1.price, pizza2.price);
+            }
+        } else if (item.type === 'bebida') {
+            const bebida = bebidas.find(b => b.id === item.bebidaId);
+            price = bebida.price;
+        }
+        return acc + price * item.quantity;
+    }, 0);
 
     totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
-        }
+}
 
-    function increment(index) {
-        carrinho[index].quantity++;
+function increment(index) {
+    carrinho[index].quantity++;
     renderCart();
-        }
+}
 
-    function decrement(index) {
-            if (carrinho[index].quantity > 1) {
+function decrement(index) {
+    if (carrinho[index].quantity > 1) {
         carrinho[index].quantity--;
-            } else {
-                if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
-        meiaPizzaPendente = null;
-                }
-    carrinho.splice(index, 1);
-            }
+    } else {
+        if (meiaPizzaPendente !== null && carrinho[index].type === 'meia' && carrinho[index].pizzas[0] === meiaPizzaPendente) {
+            meiaPizzaPendente = null;
+        }
+        carrinho.splice(index, 1);
+    }
     renderCart();
-        }
+}
 
-    function abrirModalFinalizar() {
-            if (hasPendingHalfPizza()) {
+function abrirModalFinalizar() {
+    if (hasPendingHalfPizza()) {
         alert('Você tem meia pizza pendente. Por favor, selecione a outra metade antes de finalizar.');
-    return;
-            }
+        return;
+    }
     modalFinalizar.classList.add('active');
-        }
+}
 
-    function fecharModalFinalizar() {
-        modalFinalizar.classList.remove('active');
-        }
+function fecharModalFinalizar() {
+    modalFinalizar.classList.remove('active');
+}
 
-    function formatarPedidoParaWhatsApp() {
-        let mensagem = "🍕 *Meu Pedido* 🍕\n\n";
+function formatarPedidoParaWhatsApp() {
+    let mensagem = "🍕 *Meu Pedido* 🍕\n\n";
     mensagem += "*Itens do Pedido:*\n";
 
-            carrinho.forEach(item => {
+    carrinho.forEach(item => {
         let name, price;
 
-    if (item.type === 'inteira') {
-                    const pizza = pizzas.find(p => p.id === item.pizzaId);
-    name = pizza.name;
-    price = pizza.price;
-                } else if (item.type === 'meia') {
-                    if (item.pizzas.length === 1) {
-                        const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-    name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
-    price = pizza.price / 2;
-                    } else if (item.pizzas.length === 2) {
-                        const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
-                        const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
-    name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
-    price = Math.max(pizza1.price, pizza2.price);
-                    }
-                } else if (item.type === 'bebida') {
-                    const bebida = bebidas.find(b => b.id === item.bebidaId);
-    name = bebida.name;
-    price = bebida.price;
-                }
+        if (item.type === 'inteira') {
+            const pizza = pizzas.find(p => p.id === item.pizzaId);
+            name = pizza.name;
+            price = pizza.price;
+        } else if (item.type === 'meia') {
+            if (item.pizzas.length === 1) {
+                const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+                name = `Meia pizza de ${pizza.name} (escolha outra metade)`;
+                price = pizza.price / 2;
+            } else if (item.pizzas.length === 2) {
+                const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+                const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+                name = `Meia ${pizza1.name} + meia ${pizza2.name}`;
+                price = Math.max(pizza1.price, pizza2.price);
+            }
+        } else if (item.type === 'bebida') {
+            const bebida = bebidas.find(b => b.id === item.bebidaId);
+            name = bebida.name;
+            price = bebida.price;
+        }
 
-    mensagem += `- ${name} x${item.quantity} - R$ ${(price * item.quantity).toFixed(2)}\n`;
-            });
+        mensagem += `- ${name} x${item.quantity} - R$ ${(price * item.quantity).toFixed(2)}\n`;
+    });
 
-            const total = carrinho.reduce((acc, item) => {
+    const total = carrinho.reduce((acc, item) => {
         let price = 0;
-    if (item.type === 'inteira') {
-                    const pizza = pizzas.find(p => p.id === item.pizzaId);
-    price = pizza.price;
-                } else if (item.type === 'meia') {
-                    if (item.pizzas.length === 1) {
-                        const pizza = pizzas.find(p => p.id === item.pizzas[0]);
-    price = pizza.price / 2;
-                    } else if (item.pizzas.length === 2) {
-                        const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
-                        const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
-    price = Math.max(pizza1.price, pizza2.price);
-                    }
-                } else if (item.type === 'bebida') {
-                    const bebida = bebidas.find(b => b.id === item.bebidaId);
-    price = bebida.price;
-                }
-    return acc + price * item.quantity;
-            }, 0);
+        if (item.type === 'inteira') {
+            const pizza = pizzas.find(p => p.id === item.pizzaId);
+            price = pizza.price;
+        } else if (item.type === 'meia') {
+            if (item.pizzas.length === 1) {
+                const pizza = pizzas.find(p => p.id === item.pizzas[0]);
+                price = pizza.price / 2;
+            } else if (item.pizzas.length === 2) {
+                const pizza1 = pizzas.find(p => p.id === item.pizzas[0]);
+                const pizza2 = pizzas.find(p => p.id === item.pizzas[1]);
+                price = Math.max(pizza1.price, pizza2.price);
+            }
+        } else if (item.type === 'bebida') {
+            const bebida = bebidas.find(b => b.id === item.bebidaId);
+            price = bebida.price;
+        }
+        return acc + price * item.quantity;
+    }, 0);
 
     mensagem += `\n*Total: R$ ${total.toFixed(2)}*\n\n`;
 
@@ -366,47 +366,47 @@
     const complemento = document.getElementById('complemento').value;
     if (complemento) {
         mensagem += ` - ${complemento}`;
-            }
+    }
 
     mensagem += `\n\n*Forma de Pagamento:* ${document.getElementById('pagamento').value}`;
 
     const troco = document.getElementById('troco').value;
     if (troco && document.getElementById('pagamento').value === 'Dinheiro') {
         mensagem += `\n*Troco para:* ${troco}`;
-            }
+    }
 
     const observacao = document.getElementById('observacao').value;
     if (observacao) {
         mensagem += `\n\n*Observações:*\n${observacao}`;
-            }
+    }
 
     return encodeURIComponent(mensagem);
-        }
+}
 
-    // Event listeners
-    toggleMenuBtn.addEventListener('click', toggleMenu);
-    btnFinalizar.addEventListener('click', abrirModalFinalizar);
-    closeModal.addEventListener('click', fecharModalFinalizar);
+// Event listeners
+toggleMenuBtn.addEventListener('click', toggleMenu);
+btnFinalizar.addEventListener('click', abrirModalFinalizar);
+closeModal.addEventListener('click', fecharModalFinalizar);
 
-        // Fechar modal ao clicar fora
-        modalFinalizar.addEventListener('click', (e) => {
-            if (e.target === modalFinalizar) {
+// Fechar modal ao clicar fora
+modalFinalizar.addEventListener('click', (e) => {
+    if (e.target === modalFinalizar) {
         fecharModalFinalizar();
-            }
-        });
+    }
+});
 
-        // Mostrar campo de troco quando selecionar Dinheiro
-        pagamentoSelect.addEventListener('change', () => {
-            if (pagamentoSelect.value === 'Dinheiro') {
+// Mostrar campo de troco quando selecionar Dinheiro
+pagamentoSelect.addEventListener('change', () => {
+    if (pagamentoSelect.value === 'Dinheiro') {
         trocoField.style.display = 'block';
-            } else {
+    } else {
         trocoField.style.display = 'none';
-            }
-        });
+    }
+});
 
-        // Enviar pedido via WhatsApp
-        formFinalizar.addEventListener('submit', (e) => {
-        e.preventDefault();
+// Enviar pedido via WhatsApp
+formFinalizar.addEventListener('submit', (e) => {
+    e.preventDefault();
 
     const telefonePizzaria = "5511968984079"; // Substitua pelo número real da pizzaria
     const mensagem = formatarPedidoParaWhatsApp();
@@ -420,8 +420,7 @@
     meiaPizzaPendente = null;
     renderCart();
     formFinalizar.reset();
-        });
+});
 
-    // Inicialização
-    renderCart();
-</script>
+// Inicialização
+renderCart();
