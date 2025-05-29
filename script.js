@@ -67,9 +67,29 @@ function toggleMenu() {
     renderMenu();
 }
 
+let ordenarCrescente = true;
+let ordenarPorPreco = false;
+
+const ordenarBtn = document.getElementById('ordenarBtn');
+
+ordenarBtn.addEventListener('click', toggleOrdenacao);
+function toggleOrdenacao() {
+    ordenarPorPreco = true;
+    ordenarCrescente = !ordenarCrescente;
+    ordenarBtn.textContent = `${ordenarCrescente ? "⬇️ Mais Barato ⬇️" : "⬆️ Mais Caro ⬆️"}`;
+    renderMenu();
+}
+
 function renderMenu() {
     menuEl.innerHTML = '';
-    const itens = exibindoBebidas ? bebidas : pizzas;
+    let itens = exibindoBebidas ? bebidas : pizzas;
+
+    // Clona e ordena se o botão de ordenação foi usado
+    if (ordenarPorPreco) {
+        itens = [...itens].sort((a, b) =>
+            ordenarCrescente ? a.price - b.price : b.price - a.price
+        );
+    } 
 
     itens.forEach(item => {
         const card = document.createElement('article');
@@ -77,15 +97,15 @@ function renderMenu() {
         card.dataset.id = item.id;
 
         card.innerHTML = `
-    <img src="${item.image}" alt="${item.name}" />
-    <div class="pizza-info">
-        <h3 class="pizza-name">${item.name}</h3>
-        ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
-        <div class="pizza-footer">
-            <div class="pizza-price"> ${formatarPrecoBR(item.price)}</div>
-        </div>
-    </div>
-    `;
+            <img src="${item.image}" alt="${item.name}" />
+            <div class="pizza-info">
+                <h3 class="pizza-name">${item.name}</h3>
+                ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
+                <div class="pizza-footer">
+                    <div class="pizza-price">${formatarPrecoBR(item.price)}</div>
+                </div>
+            </div>
+        `;
 
         if (!exibindoBebidas) {
             const meiaBtn = document.createElement('button');
