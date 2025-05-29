@@ -346,7 +346,7 @@ function formatarPedidoParaWhatsApp() {
             price = bebida.price;
         }
 
-        mensagem += `- ${name} x${item.quantity} - R$ ${(price * item.quantity).toFixed(2)}\n`;
+        mensagem += `- x${item.quantity} ${name} - R$ ${(price * item.quantity).toFixed(2)}\n`;
     });
 
     const total = carrinho.reduce((acc, item) => {
@@ -370,9 +370,14 @@ function formatarPedidoParaWhatsApp() {
         return acc + price * item.quantity;
     }, 0);
 
-    mensagem += `\n*Total: R$ ${total.toFixed(2)}*\n\n`;
+    mensagem += `\n*Total: R$ ${total.toFixed(2)}*`;
 
-    mensagem += `*Endereço de Entrega:*\n${document.getElementById('endereco').value}, ${document.getElementById('numero').value}`;
+    const observacao = document.getElementById('observacao').value;
+    if (observacao) {
+        mensagem += `\n\n*Observações:*\n${observacao}`;
+    }
+
+    mensagem += `\n\n*Endereço de Entrega:*\n${document.getElementById('endereco').value}, ${document.getElementById('numero').value}`;
 
     const complemento = document.getElementById('complemento').value;
     if (complemento) {
@@ -386,13 +391,9 @@ function formatarPedidoParaWhatsApp() {
         mensagem += `\n*Troco para:* ${troco}`;
     }
 
-    const observacao = document.getElementById('observacao').value;
-    if (observacao) {
-        mensagem += `\n\n*Observações:*\n${observacao}`;
-    }
-
     return encodeURIComponent(mensagem);
 }
+
 
 // Event listeners
 toggleMenuBtn.addEventListener('click', toggleMenu);
