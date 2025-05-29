@@ -254,13 +254,13 @@ function renderCart() {
         const itemTotalPrice = price * item.quantity;
 
         li.innerHTML = `
-    <div class="item-name">${name} R$ ${price.toFixed(2)}</div>
+    <div class="item-name">${name} ${formatarPrecoBR(price)}</div>
     <div class="quantity-controls">
         <button onclick="decrement(${originalIndex})">−</button>
         <span>${item.quantity}</span>
         <button onclick="increment(${originalIndex})">+</button>
     </div>
-    <div class="item-price">R$ ${itemTotalPrice.toFixed(2)}</div>
+    <div class="item-price">${formatarPrecoBR(itemTotalPrice)}</div>
     `;
 
         cartList.appendChild(li);
@@ -287,7 +287,7 @@ function renderCart() {
         return acc + price * item.quantity;
     }, 0);
 
-    totalEl.textContent = `Total: R$ ${total.toFixed(2)}`;
+    totalEl.textContent = `Total: ${formatarPrecoBR(total)}`;
 }
 
 function increment(index) {
@@ -371,7 +371,7 @@ function formatarPedidoParaWhatsApp() {
         return acc + price * item.quantity;
     }, 0);
 
-    mensagem += `\n*Total: R$ ${total.toFixed(2)}*`;
+    mensagem += `\n*Total: ${formatarPrecoBR(total)}*`;
 
     const observacao = document.getElementById('observacao').value;
     if (observacao) {
