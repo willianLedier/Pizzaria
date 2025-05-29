@@ -1,5 +1,5 @@
 ﻿
-let telefonePizzaria; 
+let telefonePizzaria;
 
 // Configurações
 fetch('dados/lalenha/configuracoes.json')
@@ -82,7 +82,8 @@ function renderMenu() {
         <h3 class="pizza-name">${item.name}</h3>
         ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
         <div class="pizza-footer">
-            <div class="pizza-price">R$ ${item.price.toFixed(2)}</div> ${!exibindoBebidas ? `(inteira)` : ''}
+            <div class="pizza-price"> ${formatarPrecoBR(item.price.toFixed(2))}</div>
+            ${!exibindoBebidas ? `<span style="font-weight: normal; font-size: 0.9em; color: #666;"> (inteira)</span>` : ''}
         </div>
     </div>
     `;
@@ -346,7 +347,7 @@ function formatarPedidoParaWhatsApp() {
             price = bebida.price;
         }
 
-        mensagem += `- x${item.quantity} ${name} - R$ ${(price * item.quantity).toFixed(2)}\n`;
+        mensagem += `- x${item.quantity} ${name} - ${formatarPrecoBR((price * item.quantity).toFixed(2))}\n`;
     });
 
     const total = carrinho.reduce((acc, item) => {
@@ -432,6 +433,10 @@ formFinalizar.addEventListener('submit', (e) => {
     renderCart();
     formFinalizar.reset();
 });
+
+function formatarPrecoBR(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
 
 // Inicialização
 renderCart();
