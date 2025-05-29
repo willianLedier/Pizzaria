@@ -319,7 +319,7 @@
                 const itemTotalPrice = price * item.quantity;
 
                 li.innerHTML = `
-              <div class="item-name">${name}</div>
+              <div class="item-name">${name} R$ ${price.toFixed(2)}</div>
               <div class="quantity-controls">
                 <button onclick="decrement(${originalIndex})">−</button>
                 <span>${item.quantity}</span>
