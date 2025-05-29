@@ -419,7 +419,6 @@ pagamentoSelect.addEventListener('change', () => {
 formFinalizar.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const telefonePizzaria = telefonePizzaria; 
     const mensagem = formatarPedidoParaWhatsApp();
     const urlWhatsApp = `https://wa.me/${telefonePizzaria}?text=${mensagem}`;
 
