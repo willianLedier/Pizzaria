@@ -1,8 +1,0 @@
-[
-  { "id": 1, "name": "Margherita", "ingredients": "Molho de tomate, mussarela, manjericão", "price": 30, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/src/dados/lalenha/imagens/marguerita.jpg" },
-  { "id": 2, "name": "Pepperoni", "ingredients": "Molho de tomate, mussarela, pepperoni", "price": 38, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/src/dados/lalenha/imagens/peperoni.jpg" },
-  { "id": 3, "name": "Quatro Queijos", "ingredients": "Mussarela, parmesão, gorgonzola, provolone", "price": 42, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/src/main/dados/lalenha/imagens/quatroqueijos.jpg" },
-  { "id": 4, "name": "Frango com Catupiry", "ingredients": "Frango desfiado, catupiry, milho", "price": 40, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/src/dados/lalenha/imagens/frangocatupiry.jpg" },
-  { "id": 5, "name": "Portuguesa", "ingredients": "Presunto, ovos, cebola, azeitonas", "price": 35, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/src/dados/lalenha/imagens/portugues.jpg" },
-  { "id": 6, "name": "Vegana", "ingredients": "Molho de tomate, legumes variados, queijo vegano", "price": 37, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/src/dados/lalenha/imagens/vegana.jpg" }
-]

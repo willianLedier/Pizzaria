@@ -1,6 +1,6 @@
 ﻿
 // Configurações
-fetch('src/dados/lalenha/configuracoes.json')
+fetch('dados/lalenha/configuracoes.json')
     .then(response => response.json())
     .then(data => {
         document.getElementById('logo-pizzaria').src = data.logo;
@@ -13,7 +13,7 @@ fetch('src/dados/lalenha/configuracoes.json')
 let pizzas;
 let bebidas;
 
-fetch('src/dados/lalenha/pizzas.json')
+fetch('dados/lalenha/pizzas.json')
     .then(res => res.json())
     .then(data => {
         pizzas = data;
@@ -21,7 +21,7 @@ fetch('src/dados/lalenha/pizzas.json')
     })
     .catch(err => console.error(err));
 
-fetch('src/dados/lalenha/bebidas.json')
+fetch('dados/lalenha/bebidas.json')
     .then(res => res.json())
     .then(data => {
         bebidas = data;
