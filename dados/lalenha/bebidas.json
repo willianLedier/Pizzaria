@@ -1,38 +1,33 @@
 [
   {
     "id": 101,
-    "name": "Coca-Cola 14L",
-    "price": 12,
-    "image": "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80"
+    "name": "Coca-Cola 2L",
+    "price": 15,
+    "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/bebidas/coca.jpg"
   },
   {
     "id": 102,
     "name": "Guaraná Antarctica 2L",
-    "price": 10,
-    "image": "https://images.unsplash.com/photo-1625772452859-1c03d5bf1137?auto=format&fit=crop&w=600&q=80"
+    "price": 15,
+    "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/bebidas/guaranaAntartica.jpg"
   },
   {
     "id": 103,
     "name": "Suco de Laranja 1L",
     "price": 15,
-    "image": "https://images.unsplash.com/photo-1603569283847-aa295f0d016a?auto=format&fit=crop&w=600&q=80"
+    "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/bebidas/sucoLaranja.jpg"
   },
   {
     "id": 104,
     "name": "Água Mineral 500ml",
     "price": 5,
-    "image": "https://images.unsplash.com/photo-1561047029-3000c68339ca?auto=format&fit=crop&w=600&q=80"
+    "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/bebidas/aguaCristal500.jpg"
   },
   {
     "id": 105,
     "name": "Cerveja Heineken 600ml",
     "price": 14,
-    "image": "https://images.unsplash.com/photo-1618889482923-38250401a84e?auto=format&fit=crop&w=600&q=80"
-  },
-  {
-    "id": 106,
-    "name": "Vinho Tinto 750ml",
-    "price": 45,
-    "image": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=600&q=80"
+    "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/bebidas/heineken.jpg"
   }
+
 ]
