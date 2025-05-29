@@ -82,7 +82,7 @@ function renderMenu() {
         <h3 class="pizza-name">${item.name}</h3>
         ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
         <div class="pizza-footer">
-            <div class="pizza-price"> ${formatarPrecoBR(item.price.toFixed(2))}</div>
+            <div class="pizza-price"> ${formatarPrecoBR(item.price)}</div>
             ${!exibindoBebidas ? `<span style="font-weight: normal; font-size: 0.9em; color: #666;"> (inteira)</span>` : ''}
         </div>
     </div>
@@ -347,7 +347,7 @@ function formatarPedidoParaWhatsApp() {
             price = bebida.price;
         }
 
-        mensagem += `- x${item.quantity} ${name} - ${formatarPrecoBR((price * item.quantity).toFixed(2))}\n`;
+        mensagem += `- x${item.quantity} ${name} - ${formatarPrecoBR((price * item.quantity))}\n`;
     });
 
     const total = carrinho.reduce((acc, item) => {
