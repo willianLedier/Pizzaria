@@ -83,7 +83,6 @@ function renderMenu() {
         ${!exibindoBebidas ? `<p class="pizza-ingredients">${item.ingredients}</p>` : ''}
         <div class="pizza-footer">
             <div class="pizza-price"> ${formatarPrecoBR(item.price)}</div>
-            ${!exibindoBebidas ? `<span> (inteira)</span>` : ''}
         </div>
     </div>
     `;
