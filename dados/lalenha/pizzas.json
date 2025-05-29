@@ -53,6 +53,6 @@
   { "id": 45, "name": "Pepperoni II", "ingredients": "pepperoni, cream cheese e parmesão.", "price": 73, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 46, "name": "Camarão C/ Mussarela", "ingredients": "camarão e cobertura de mussarela.", "price": 75, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
   { "id": 47, "name": "Camarão C/ Catupiry", "ingredients": "camarão e cobertura de catupiry.", "price": 78, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
-  { "id": 48, "name": "Moda da Casa", "ingredients": "peito de peru, cream cheese, pepperoni e parmesão.", "price": 78, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" },
+  { "id": 48, "name": "Moda da Casa", "ingredients": "peito de peru, cream cheese, pepperoni e parmesão.", "price": 78, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/marguerita.jpg" }
 
 ]
