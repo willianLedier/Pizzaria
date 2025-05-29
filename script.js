@@ -1,10 +1,13 @@
 ﻿
+let telefonePizzaria; 
+
 // Configurações
 fetch('dados/lalenha/configuracoes.json')
     .then(response => response.json())
     .then(data => {
         document.getElementById('logo-pizzaria').src = data.logo;
         document.getElementById('nome-pizzaria').textContent = data.nome;
+        telefonePizzaria = data.telefonePizzaria;
     })
     .catch(error => {
         console.error('Erro ao carregar os dados da pizzaria:', error);
@@ -416,7 +419,7 @@ pagamentoSelect.addEventListener('change', () => {
 formFinalizar.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const telefonePizzaria = "5511968984079"; // Substitua pelo número real da pizzaria
+    const telefonePizzaria = telefonePizzaria; 
     const mensagem = formatarPedidoParaWhatsApp();
     const urlWhatsApp = `https://wa.me/${telefonePizzaria}?text=${mensagem}`;
 
