@@ -10,7 +10,7 @@
   { "id": 7, "name": "Baiana", "ingredients": "calabresa picada, cebola, pimenta e ovos.", "price": 55, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/calabresa.jpg" },
   { "id": 8, "name": "Baiana II", "ingredients": "calabresa picada, cebola, pimenta, ovos e mussarela.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/calabresa.jpg" },
   { "id": 9, "name": "Tropicana", "ingredients": "calabresa e cobertura de catupiry.", "price": 63, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/calabresaCatupiry.jpg" },
-  { "id": 10, "name": "Tropicana II", "ingredients": "calabresa, palmito, ervilha, cebola, ovos, mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/calabresaPalmito .jpg" },
+  { "id": 10, "name": "Tropicana II", "ingredients": "calabresa, palmito, ervilha, cebola, ovos, mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/calabresaPalmito.jpg" },
 
   { "id": 11, "name": "Mussarela", "ingredients": "mussarela e rodelas de tomate.", "price": 55, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/queijo.jpg" },
   { "id": 12, "name": "Napolitana", "ingredients": "mussarela, parmesão e rodelas de tomate.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/mussarelaTomate.jpg" },
