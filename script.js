@@ -428,6 +428,7 @@ function formatarPedidoParaWhatsApp() {
 toggleMenuBtn.addEventListener('click', toggleMenu);
 btnFinalizar.addEventListener('click', abrirModalFinalizar);
 closeModal.addEventListener('click', fecharModalFinalizar);
+document.getElementById('filtroInput').addEventListener('input', renderMenu);
 
 // Fechar modal ao clicar fora
 modalFinalizar.addEventListener('click', (e) => {
