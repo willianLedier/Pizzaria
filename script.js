@@ -98,7 +98,7 @@ function renderMenu() {
         itens = [...itens].sort((a, b) =>
             ordenarCrescente ? a.price - b.price : b.price - a.price
         );
-    } 
+    }
 
     itens.forEach(item => {
         const card = document.createElement('article');
@@ -133,6 +133,7 @@ function renderMenu() {
             } else {
                 addPizzaToCart(item.id);
             }
+            toggleResumo(true);
         });
 
         menuEl.appendChild(card);
@@ -467,5 +468,16 @@ function formatarPrecoBR(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+function toggleResumo(mostrar = false) {
+    if (mostrar) {
+        content.classList.remove('hidden');
+    } else {
+        content.classList.toggle('hidden');
+    }
+
+    toggle.textContent = content.classList.contains('hidden') ? '▼' : '▲';
+}
+
 // Inicialização
+toggleResumo();
 renderCart();
