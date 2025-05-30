@@ -123,6 +123,7 @@ function renderMenu() {
             meiaBtn.onclick = (ev) => {
                 ev.stopPropagation();
                 addMeiaPizza(item.id);
+                toggleResumo(true);
             };
             card.querySelector('.pizza-footer').appendChild(meiaBtn);
         }
