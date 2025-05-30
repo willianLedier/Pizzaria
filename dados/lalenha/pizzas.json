@@ -19,7 +19,7 @@
   { "id": 15, "name": "Cinco Queijos", "ingredients": "mussarela, catupiry, provolone, parmesão e gorgonzola.", "price": 70, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/queijo.jpg" },
   
   { "id": 16, "name": "Come Bem", "ingredients": "lombo, molho vinagrete e bacon.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/lombo.jpg" },
-  { "id": 17, "name": "Fiorentina", "ingredients": "lombo e cobertura de mussarela.", "price": 30, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/lombo.jpg" },
+  { "id": 17, "name": "Fiorentina", "ingredients": "lombo e cobertura de mussarela.", "price": 60, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/lombo.jpg" },
   { "id": 18, "name": "La Lenha", "ingredients": "lombo, bacon e catupiry.", "price": 65, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/lombo.jpg" },
   { "id": 19, "name": "Paulista", "ingredients": "lombo, palmito, ervilha, cebola, ovos e mussarela.", "price": 68, "image": "https://raw.githubusercontent.com/willianLedier/Pizzaria/main/dados/imagens/pizzas/lombo.jpg" },
   
