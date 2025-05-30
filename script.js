@@ -65,7 +65,6 @@ function toggleMenu() {
     exibindoBebidas = !exibindoBebidas;
     toggleMenuBtn.textContent = exibindoBebidas ? "Ir para PIZZAS" : "Ir para BEBIDAS";
     renderMenu();
-    window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 let ordenarCrescente = true;
@@ -438,7 +437,14 @@ function formatarPedidoParaWhatsApp() {
 toggleMenuBtn.addEventListener('click', toggleMenu);
 btnFinalizar.addEventListener('click', abrirModalFinalizar);
 closeModal.addEventListener('click', fecharModalFinalizar);
-document.getElementById('filtroInput').addEventListener('input', renderMenu);
+//document.getElementById('filtroInput').addEventListener('input', renderMenu);
+
+document.getElementById('filtroInput').addEventListener('input', () => {
+    renderMenu();
+    setTimeout(() => { window.scrollTo({ top: 0, behavior: 'auto' }); }, 0);
+});
+
+
 
 // Fechar modal ao clicar fora
 modalFinalizar.addEventListener('click', (e) => {
