@@ -65,6 +65,7 @@ function toggleMenu() {
     exibindoBebidas = !exibindoBebidas;
     toggleMenuBtn.textContent = exibindoBebidas ? "Ir para PIZZAS" : "Ir para BEBIDAS";
     renderMenu();
+    window.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 let ordenarCrescente = true;
@@ -87,6 +88,10 @@ function renderMenu() {
 
     const termo = document.getElementById('filtroInput').value.toLowerCase();
 
+    if (termo) {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
     // Filtro por nome ou ingredientes (se não bebida)
     itens = itens.filter(item =>
         item.name.toLowerCase().includes(termo) ||
@@ -98,6 +103,8 @@ function renderMenu() {
         itens = [...itens].sort((a, b) =>
             ordenarCrescente ? a.price - b.price : b.price - a.price
         );
+
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
     itens.forEach(item => {
@@ -138,6 +145,7 @@ function renderMenu() {
         });
 
         menuEl.appendChild(card);
+
     });
 }
 
