@@ -442,11 +442,14 @@ main {
     display: flex;
     z-index: 998;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: 100%;
 }
 
-#ordenarBtn, .search-wrapper {
-    flex: 1;
+#ordenarBtn,
+.search-wrapper {
+    width: 50%; /* Cada um ocupa metade */
     height: 100%;
+    box-sizing: border-box;
 }
 
 #ordenarBtn {
@@ -457,12 +460,13 @@ main {
     border: none;
     cursor: pointer;
     transition: background 0.3s ease;
+    padding: 0 10px;
 }
 
     #ordenarBtn:hover {
         background: #e64a19;
     }
-
+  
 .search-wrapper {
     position: relative;
     background: #fff8f4;
@@ -472,11 +476,13 @@ main {
 #filtroInput {
     width: 100%;
     height: 100%;
-    border: none;
-    padding-left: 35px; /* espaço para a lupa */
+    padding-left: 35px;
+    padding-right: 10px;
     font-size: 18px;
+    border: none;
     color: #333;
     background: transparent;
+    box-sizing: border-box;
 }
 
 .search-icon {
