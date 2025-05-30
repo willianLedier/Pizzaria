@@ -64,6 +64,7 @@ function hasPendingHalfPizza() {
 function toggleMenu() {
     exibindoBebidas = !exibindoBebidas;
     toggleMenuBtn.textContent = exibindoBebidas ? "Ir para PIZZAS" : "Ir para BEBIDAS";
+    document.getElementById('filtroInput').value = "";
     renderMenu();
 }
 
@@ -86,10 +87,6 @@ function renderMenu() {
     let itens = exibindoBebidas ? bebidas : pizzas;
 
     const termo = document.getElementById('filtroInput').value.toLowerCase();
-
-    if (termo) {
-        window.scrollTo({ top: 0, behavior: 'auto' });
-    }
 
     // Filtro por nome ou ingredientes (se não bebida)
     itens = itens.filter(item =>
@@ -432,19 +429,15 @@ function formatarPedidoParaWhatsApp() {
     return encodeURIComponent(mensagem);
 }
 
-
 // Event listeners
 toggleMenuBtn.addEventListener('click', toggleMenu);
 btnFinalizar.addEventListener('click', abrirModalFinalizar);
 closeModal.addEventListener('click', fecharModalFinalizar);
-//document.getElementById('filtroInput').addEventListener('input', renderMenu);
 
 document.getElementById('filtroInput').addEventListener('input', () => {
     renderMenu();
     setTimeout(() => { window.scrollTo({ top: 0, behavior: 'auto' }); }, 0);
 });
-
-
 
 // Fechar modal ao clicar fora
 modalFinalizar.addEventListener('click', (e) => {
