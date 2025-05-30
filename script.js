@@ -81,8 +81,17 @@ function toggleOrdenacao() {
 }
 
 function renderMenu() {
+
     menuEl.innerHTML = '';
     let itens = exibindoBebidas ? bebidas : pizzas;
+
+    const termo = document.getElementById('filtroInput').value.toLowerCase();
+
+    // Filtro por nome ou ingredientes (se não bebida)
+    itens = itens.filter(item =>
+        item.name.toLowerCase().includes(termo) ||
+        (!exibindoBebidas && item.ingredients.toLowerCase().includes(termo))
+    );
 
     // Clona e ordena se o botão de ordenação foi usado
     if (ordenarPorPreco) {
