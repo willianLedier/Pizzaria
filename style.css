@@ -442,3 +442,22 @@ main {
         color: #888;
         pointer-events: none; /* evita interferência com clique no input */
     }
+
+.erro-box {
+    background: #f5c6cb;
+    border: 1px solid #f1b0b7;
+    border-radius: 8px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    max-width: 400px;
+}
+
+    .erro-box h1 {
+        margin-top: 0;
+        font-size: 24px;
+    }
+
+    .erro-box p {
+        margin-bottom: 0;
+        font-size: 16px;
+    }

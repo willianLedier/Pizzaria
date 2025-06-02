@@ -1,8 +1,20 @@
-﻿
-let telefonePizzaria;
+﻿let telefonePizzaria;
+let pizzas;
+let bebidas;
+
+const url = new URL(window.location.href);
+const loja = url.searchParams.get("loja");
+
+if (!loja || loja.trim() === "") {
+    document.body.innerHTML = `
+    <div class="erro-box">
+      <h1>Ops! Algo deu errado.</h1>
+      <p>Erro: loja não encontrada.</p>
+    </div>`;
+}
 
 // Configurações
-fetch('dados/lalenha/configuracoes.json')
+fetch(`dados/${loja}/configuracoes.json`)
     .then(response => response.json())
     .then(data => {
         document.getElementById('logo-pizzaria').src = data.logo;
@@ -13,10 +25,7 @@ fetch('dados/lalenha/configuracoes.json')
         console.error('Erro ao carregar os dados da pizzaria:', error);
     });
 
-let pizzas;
-let bebidas;
-
-fetch('dados/lalenha/pizzas.json')
+fetch(`dados/${loja}/pizzas.json`)
     .then(res => res.json())
     .then(data => {
         pizzas = data;
@@ -24,7 +33,7 @@ fetch('dados/lalenha/pizzas.json')
     })
     .catch(err => console.error(err));
 
-fetch('dados/lalenha/bebidas.json')
+fetch(`dados/${loja}/bebidas.json`)
     .then(res => res.json())
     .then(data => {
         bebidas = data;
