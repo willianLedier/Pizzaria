@@ -13,14 +13,16 @@
         <h1 id="nome-pizzaria"></h1>
     </header>
 
-    <button class="toggle-menu" id="toggleMenu">Ir para BEBIDAS</button>
+    <div class="menu-container">
+        <button class="toggle-menu" id="toggleMenu">🍺 Ir para BEBIDAS 🍺</button>
+        <button class="toggle-menu" id="ordenarBtn">⬇️ Ordenar ⬆️</button>
+    </div>
 
-    <div class="menu-controls">
-        <div class="search-wrapper">
-            <input type="text" id="filtroInput" placeholder="Pesquisar item..." />
-            <span class="search-icon">🔍</span>
+    <div class="filtro-container">
+        <div class="filtro-input-wrapper" style="position: relative;">
+            <input type="text" id="filtroInput" placeholder="Filtrar...">
+            <span class="lupa">🔍</span>
         </div>
-        <button id="ordenarBtn">⬇️ Ordenar ⬆️</button>
     </div>
 
     <main>

@@ -111,8 +111,6 @@ main {
     z-index: 999;
 }
 
-
-/* Toggle no topo */
 .cart-toggle {
     text-align: center;
     font-size: 24px;
@@ -232,12 +230,17 @@ main {
     padding: 20px 0;
 }
 
-/* Novo estilo para o botão de alternar menu - agora na parte superior */
-.toggle-menu {
+.menu-container {
     position: fixed;
-    top: 70px; /* Posicionado logo abaixo do header */
+    top: 70px;
     left: 0;
-    right: 0;
+    width: 100%;
+    display: flex;
+    z-index: 999;
+}
+
+.toggle-menu {
+    flex: 1;
     height: 50px;
     background: #ff7043;
     color: white;
@@ -246,26 +249,21 @@ main {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    border-right: 7px solid rgba(255,255,255,0.3);
 }
+
+    .toggle-menu:last-child {
+        border-right: none;
+    }
 
     .toggle-menu:hover {
         background: #e64a19;
     }
 
-    .toggle-menu::before {
-        content: "🍺 ";
-    }
-
-    .toggle-menu::after {
-        content: " 🍕";
-    }
-
-/* Botão Finalizar Pedido */
 .btn-finalizar {
     background: #d84315;
     color: white;
@@ -291,7 +289,6 @@ main {
         cursor: not-allowed;
     }
 
-/* Modal de Finalização */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -359,7 +356,9 @@ main {
         color: #555;
     }
 
-    .form-group input, .form-group select, .form-group textarea {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
         width: 100%;
         padding: 10px;
         border: 1px solid #ddd;
@@ -408,89 +407,38 @@ main {
         background: #45a049;
     }
 
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    body {
-        padding-top: 160px;
-    }
 
-    .pizza-menu {
-        grid-template-columns: repeat(2, 1fr); /* mantém 2 colunas */
-        gap: 12px; /* pode ajustar o espaçamento se quiser */
-    }
-
-    .toggle-menu {
-        height: 45px;
-        font-size: 16px;
-    }
-
-    .address-fields {
-        flex-direction: column;
-    }
-
-        .address-fields .form-group:nth-child(2) {
-            max-width: none;
-        }
-}
-
-.menu-controls {
+.filtro-container {
     position: fixed;
-    top: 120px;
+    top: 125px;
     left: 0;
-    right: 0;
-    height: 50px;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.filtro-input-wrapper {
+    position: relative;
     display: flex;
-    z-index: 998;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    align-items: center;
     width: 100%;
 }
 
-#ordenarBtn,
-.search-wrapper {
-    width: 50%; /* Cada um ocupa metade */
-    height: 100%;
-    box-sizing: border-box;
-}
-
-#ordenarBtn {
-    background: #ff7043;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    padding: 0 10px;
-}
-
-    #ordenarBtn:hover {
-        background: #e64a19;
+    .filtro-input-wrapper input {
+        width: 100%;
+        padding: 10px 40px 10px 12px; /* Espaço à direita para a lupa */
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
     }
 
-.search-wrapper {
-    position: relative;
-    background: #fff8f4;
-    border-left: 1px solid #ddd;
-}
-
-#filtroInput {
-    width: 100%;
-    height: 100%;
-    padding-left: 35px;
-    padding-right: 10px;
-    font-size: 18px;
-    border: none;
-    color: #333;
-    background: transparent;
-    box-sizing: border-box;
-}
-
-.search-icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #888;
-    pointer-events: none;
-}
+    .filtro-input-wrapper .lupa {
+        position: absolute;
+        right: 12px;
+        font-size: 18px;
+        color: #888;
+        pointer-events: none; /* evita interferência com clique no input */
+    }

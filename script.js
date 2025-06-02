@@ -63,7 +63,7 @@ function hasPendingHalfPizza() {
 // Função para alternar entre pizzas e bebidas
 function toggleMenu() {
     exibindoBebidas = !exibindoBebidas;
-    toggleMenuBtn.textContent = exibindoBebidas ? "Ir para PIZZAS" : "Ir para BEBIDAS";
+    toggleMenuBtn.textContent = exibindoBebidas ? "🍕 Ir para PIZZAS 🍕" : "🍺 Ir para BEBIDAS 🍺";
     document.getElementById('filtroInput').value = "";
     renderMenu();
 }
